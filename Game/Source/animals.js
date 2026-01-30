@@ -144,8 +144,9 @@ animals = {
     food: "carnivore",
   },
   "MOUSE": {
+    movement: "walk",
     mouth: [262, 341],
-    butt: [242, 392],
+    butt: [229, 360],
     food: "omnivore",
   },
   "BROWN_BEAR": {
@@ -192,6 +193,8 @@ animals = {
     food: ["fish"],
   },
   "SEAL": {
+    movement: "jump",
+    speed: 0.7,
     land: "ice",
     pond: "large",
     mouth: [299, 344],
@@ -349,6 +352,9 @@ animals = {
     // TO DO: arboreal red panda!
   },
   "KANGAROO": {
+    movement: "jump",
+    still_frames: [0,1,2,3,4,19,20,21,22,23],
+    speed: 1.2,
     mouth: [273, 295],
     butt: [217, 395],
     food: "herbivore",
@@ -364,6 +370,8 @@ animals = {
     food: "omnivore",
   },
   "RACCOON": {
+    movement: "walk",
+    speed:1,
     mouth: [305, 354],
     butt: [195, 362],
     land: "forest",
@@ -388,10 +396,13 @@ animals = {
     food: "herbivore",
   },
   "RABBIT": {
+    movement: "jump",
+    still_frames: [0,1,2,3,4,5],
+    speed: 0.95,
     mouth: [248, 343],
     butt: [249, 406],
-    min: 2,
-    max: 4,
+    min: 4,
+    max: 10,
     food: "herbivore",
   },
   "BEAVER": {
@@ -515,6 +526,8 @@ animals = {
     max: 5,
   },
   "FROG": {
+    movement: "jump",
+    still_frames: [0,1,2,22,23,24],
     mouth: [258, 355],
     butt: [217, 387],
     land: "forest",
@@ -632,6 +645,12 @@ animated_animals = {
   "ALLIGATOR":0.6,
   "MEERKAT":0.6,
   "ANTEATER":0.5,
+  "KANGAROO":0.8,
+  "SEAL":0.8,
+  "RABBIT":0.6,
+  "FROG":0.8,
+  "MOUSE":0.6,
+  "RACCOON":0.5,
 }
 
 
@@ -676,6 +695,7 @@ for (const [name, data] of Object.entries(animals)) {
   if (!("speed" in data)) data["speed"] = 1;
   if (!("min" in data)) data["min"] = 1;
   if (!("max" in data)) data["max"] = 3;
+  if (!("still_frames" in data)) data["still_frames"] = [];
   if (!("variations" in data)) data["variations"] = 1;
   if ("food" in data && data["food"] == "herbivore") data["food"] = ["greens"];
   if ("food" in data && data["food"] == "omnivore") data["food"] = ["steak", "greens", "fruit"];
@@ -725,6 +745,8 @@ Game.prototype.makeAnimal = function(animal_type, pen) {
   }
 
   animal.movement = animals[animal.type].movement;
+
+  animal.still_frames = animals[animal.type].still_frames;
 
   if (animal.movement == "arboreal") {
     animal.arboreal_state = "on_ground";
@@ -896,7 +918,7 @@ Game.prototype.makeAnimal = function(animal_type, pen) {
       animal.prepping_walk = 1;
       animal.stand_sprite.onComplete = function() {
         animal.prepping_walk = 0;
-        animal.stand_sprite.gotoAndStop(0);
+        // animal.stand_sprite.gotoAndStop(0);
       }
     }
 
@@ -959,10 +981,48 @@ Game.prototype.makeAnimal = function(animal_type, pen) {
       }
 
 
+      if (animal.movement == "jump") {
+        animal.sprite.y += animal.vy;
+        if (!animal.still_frames.includes(animal.sprite.currentFrame)) {
+          animal.move();
+        }
+        
+        let outside = false;
+        for (let a = 0; a < 360; a += 45) {
+          let p = [animal.x + 42 * Math.cos(a * Math.PI / 180), animal.y + 42 * Math.sin(a * Math.PI / 180)];
+          if(!pointInsidePolygon(p, pen.polygon)) {
+            outside = true;
+          }
+        }
+        if (outside) {
+          animal.y -= animal.land_speed * Math.sin(animal.land_angle);
+          animal.x -= animal.land_speed * Math.cos(animal.land_angle);
+
+          animal.land_angle = (Math.random() * 360) * Math.PI / 180;          
+        }
+
+        if (animal.animated && !animal.sprite.playing) {
+          animal.sprite.gotoAndStop(0);
+          animal.sprite.animationSpeed = animated_animals[animal.type];
+          animal.sprite.play();
+        } else {
+          if (animal.sprite.currentFrame == 0) {
+            if (Math.random() < 0.15) {
+              animal.stopMoving(true);
+              animal.maybeChangeDirection();
+            }
+
+
+          }
+        }
+      }
+
+
       if (animal.movement == "walk" || animal.movement == "walk_and_stand") {
         animal.sprite.y += animal.vy;
         animal.move();
 
+        console.log(animal);
         let outside = false;
         for (let a = 0; a < 360; a += 45) {
           let p = [animal.x + 42 * Math.cos(a * Math.PI / 180), animal.y + 42 * Math.sin(a * Math.PI / 180)];
@@ -1181,6 +1241,15 @@ Game.prototype.makeAnimal = function(animal_type, pen) {
     animal.sprite.gotoAndStop(0);
 
     if (animal.movement === "walk_and_stand") {
+
+      if (Math.cos(animal.land_angle) < 0) {
+        animal.direction = -1;
+        animal.stand_sprite.scale.set(-animal_scale, animal_scale);
+      } else {
+        animal.direction = 1;
+        animal.stand_sprite.scale.set(animal_scale, animal_scale);
+      }
+
       animal.stand_sprite.gotoAndStop(0);
       animal.stand_sprite.x = animal.sprite.x;
       animal.stand_sprite.y = animal.sprite.y;
