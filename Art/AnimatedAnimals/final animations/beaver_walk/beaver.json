@@ -1,0 +1,184 @@
+{"frames": {
+
+"beaver_stand00.png":
+{
+	"frame": {"x":1,"y":1387,"w":146,"h":149},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":154,"y":262,"w":146,"h":149},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_stand01.png":
+{
+	"frame": {"x":236,"y":1035,"w":157,"h":152},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":150,"y":261,"w":157,"h":152},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_stand02.png":
+{
+	"frame": {"x":240,"y":779,"w":185,"h":142},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":147,"y":271,"w":185,"h":142},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_stand03.png":
+{
+	"frame": {"x":245,"y":537,"w":199,"h":124},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":144,"y":288,"w":199,"h":124},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_stand04.png":
+{
+	"frame": {"x":245,"y":312,"w":217,"h":109},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":143,"y":305,"w":217,"h":109},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_stand05.png":
+{
+	"frame": {"x":245,"y":423,"w":215,"h":112},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":147,"y":301,"w":215,"h":112},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_stand06.png":
+{
+	"frame": {"x":242,"y":663,"w":219,"h":114},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":149,"y":299,"w":219,"h":114},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_stand07.png":
+{
+	"frame": {"x":236,"y":923,"w":226,"h":110},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":143,"y":300,"w":226,"h":110},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_stand08.png":
+{
+	"frame": {"x":234,"y":1189,"w":228,"h":114},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":144,"y":298,"w":228,"h":114},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk00.png":
+{
+	"frame": {"x":1,"y":808,"w":234,"h":110},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":149,"y":301,"w":234,"h":110},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk01.png":
+{
+	"frame": {"x":1,"y":1276,"w":231,"h":109},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":151,"y":301,"w":231,"h":109},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk02.png":
+{
+	"frame": {"x":1,"y":920,"w":233,"h":115},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":157,"y":297,"w":233,"h":115},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk03.png":
+{
+	"frame": {"x":342,"y":1305,"w":228,"h":113},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":154,"y":296,"w":228,"h":113},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk04.png":
+{
+	"frame": {"x":1,"y":568,"w":239,"h":117},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":149,"y":292,"w":239,"h":117},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk05.png":
+{
+	"frame": {"x":1,"y":1037,"w":232,"h":125},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":152,"y":288,"w":232,"h":125},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk06.png":
+{
+	"frame": {"x":1,"y":687,"w":237,"h":119},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":151,"y":294,"w":237,"h":119},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk07.png":
+{
+	"frame": {"x":1,"y":312,"w":242,"h":126},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":156,"y":287,"w":242,"h":126},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk08.png":
+{
+	"frame": {"x":1,"y":440,"w":242,"h":126},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":152,"y":287,"w":242,"h":126},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk09.png":
+{
+	"frame": {"x":1,"y":1164,"w":231,"h":110},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":157,"y":301,"w":231,"h":110},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk10.png":
+{
+	"frame": {"x":234,"y":1305,"w":230,"h":106},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":162,"y":304,"w":230,"h":106},
+	"sourceSize": {"w":512,"h":512}
+},
+"beaver_walk11.png":
+{
+	"frame": {"x":1,"y":1,"w":309,"h":425},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":156,"y":44,"w":309,"h":425},
+	"sourceSize": {"w":512,"h":512}
+}},
+"animations": {
+	"walk_and_stand": ["beaver_stand00.png","beaver_stand01.png","beaver_stand02.png","beaver_stand03.png","beaver_stand04.png","beaver_stand05.png","beaver_stand06.png","beaver_stand07.png","beaver_stand08.png"],
+	"beaver": ["beaver_walk00.png","beaver_walk01.png","beaver_walk02.png","beaver_walk03.png","beaver_walk04.png","beaver_walk05.png","beaver_walk06.png","beaver_walk07.png","beaver_walk08.png","beaver_walk09.png","beaver_walk10.png","beaver_walk11.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "beaver.png",
+	"format": "RGBA8888",
+	"size": {"w":463,"h":1536},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ae15b68feb1066afe48535c53b86bc7c:110d8bbde91e5ad73148afa336df20a1:48ed05529f92a364ac0212e5964d1f54$"
+}
+}

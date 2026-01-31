@@ -289,7 +289,7 @@
 	"sourceSize": {"w":512,"h":512}
 }},
 "animations": {
-	"stand": ["meerkat_stand00.png","meerkat_stand01.png","meerkat_stand02.png","meerkat_stand03.png","meerkat_stand04.png","meerkat_stand05.png","meerkat_stand06.png","meerkat_stand07.png","meerkat_stand08.png","meerkat_stand09.png","meerkat_stand10.png","meerkat_stand11.png","meerkat_stand12.png","meerkat_stand13.png"],
+	"walk_and_stand": ["meerkat_stand00.png","meerkat_stand01.png","meerkat_stand02.png","meerkat_stand03.png","meerkat_stand04.png","meerkat_stand05.png","meerkat_stand06.png","meerkat_stand07.png","meerkat_stand08.png","meerkat_stand09.png","meerkat_stand10.png","meerkat_stand11.png","meerkat_stand12.png","meerkat_stand13.png"],
 	"meerkat": ["meerkat_walk00.png","meerkat_walk01.png","meerkat_walk02.png","meerkat_walk03.png","meerkat_walk04.png","meerkat_walk05.png","meerkat_walk06.png","meerkat_walk07.png","meerkat_walk08.png","meerkat_walk09.png","meerkat_walk10.png","meerkat_walk11.png","meerkat_walk12.png","meerkat_walk13.png","meerkat_walk14.png","meerkat_walk15.png","meerkat_walk16.png","meerkat_walk17.png","meerkat_walk18.png","meerkat_walk19.png","meerkat_walk20.png","meerkat_walk21.png"]
 },
 "meta": {
