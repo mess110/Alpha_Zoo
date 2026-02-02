@@ -925,6 +925,10 @@ Game.prototype.addType = function(letter) {
   var self = this;
   var screen = this.screens["typing"];
 
+  console.log("i am playing a sound effect");
+  console.log(letter);
+  soundEffect(letter.toLowerCase());
+
   if (this.typing_text.text.length < this.thing_to_type.length) {
     if (this.thing_to_type[this.typing_text.text.length] == "_") {
       this.typing_text.text += " ";
@@ -939,6 +943,11 @@ Game.prototype.addType = function(letter) {
 
     let thing_to_type = this.thing_to_type;
     let pen_to_fix = this.pen_to_fix;
+
+    delay(function() {
+      console.log("Try playing the sound " + "spoken_" + thing_to_type.toLowerCase())
+      soundEffect("spoken_" + thing_to_type.toLowerCase())
+    }, 600)
 
     delay(function() {
       if (pen_to_fix.special != "TRAIN") {

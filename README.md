@@ -15,7 +15,7 @@ This game is developed in javascript with PixiJS and a few other small libraries
 
 
 # License
-Although the game is for sale, if you're here, you're probably a programmer. Images and other media assets are copyright Alpha Zoo 2021. Code is open sourced. You are free to use our code under a Creative Commons license, either for learning or for your own development purposes, commercial or non-commercial, with attribution appreciated but not necessary.
+Although the game is for sale, if you're here, you're probably a programmer. Images and other media assets are copyright Alpha Zoo 2021-2026. Code is open sourced. You are free to use our code under a Creative Commons license, either for learning or for your own development purposes, commercial or non-commercial, with attribution appreciated but not necessary.
 
 
 # Attributions
@@ -24,39 +24,15 @@ All programming and art assets by Matthew Carlin. Sound is from splice.com, free
 - https://www.pond5.com/sound-effects/item/8671090-capybara-cu-chittering-calls
 - https://www.pond5.com/sound-effects/item/49541726-male-eastern-grey-kangaroo-growling-and-chewing
 - Music is Campfire Song by Chris Haugen (https://chrishaugen.net/).
+- Animal animations are Midjourney generated with cleanup work by Matthew Carlin
 
 
 # In Progress (1.4)
 
 Working on some of these things:
-- Put the zoo on an island
-- Marimba
-- Animalmations
-- Screenshots
-- Try recoloring the sky and consider improving the sky above the ferris wheel
-- Boat ride
-- Try ponds instead of rivers for the smaller zoo
-- Try Bamboo forest
-- Try tunnels
-  - put a pair of tunnel entrances on any two unused pieces of ground
-  - underground animals in cave terrain
-  - sometimes lava!
-  - Cave terrain
-  - Lava terrain
-- +5 tunnel animals (70)
-    - Badger
-    - Mole
-    - Bat
-    - Skunk
-    - Groundhog
-- Art fixes
-    - 5 more animal redraws
-    - Better bushes/flowers/leafy things.
-    - Better meerkat steppes using prettier red rocks and some kind of sand edging. Make them look a little bit like your cool rocks, if possible!
-- Game professionalism
-    - (Maybe) Figure out how to turn off website controls (zooms and full screen and refresh and stuff) and decide whether to do that)
-    - Make a nicer looking DMG (copy application to applications folder graphic)
-    - Windows app icon
+- Marimba!
+- Animal animations
+- Spoken letters
 
 
 
