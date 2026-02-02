@@ -39,6 +39,7 @@ animals = {
     food: "omnivore",
   },
   "OTTER": {
+    movement: "walk_and_swim",
     land: "rock",
     pond: "large",
     terrace: true,
@@ -55,8 +56,10 @@ animals = {
     food: ["greens", "fruit"],
   },
   "CHIMPANZEE": {
+    movement: "walk",
+    speed: 1.1,
     mouth: [256, 322],
-    butt: [253, 391],
+    butt: [203, 371],
     min: 2,
     max: 4,
     food: "omnivore",
@@ -247,10 +250,14 @@ animals = {
   },
   "SNAKE": {
     land: "sand",
-    movement: "undulate",
+    movement: "walk",
+    speed:0.5,
     mouth: [371, 383],
     butt: [191, 392],
     food: "carnivore",
+    variations: 3,
+    min:4,
+    max:7,
   },
   "COW": {
     movement: "walk",
@@ -267,6 +274,8 @@ animals = {
     food: "herbivore",
   },
   "CAPYBARA": {
+    movement: "walk",
+    speed: 0.5,
     land: "sand",
     pond: "any",
     mouth: [281, 342],
@@ -666,6 +675,10 @@ animated_animals = {
   "KOALA":0.3,
   "SLOTH":0.2,
   "BEAVER":0.2,
+  "CAPYBARA":0.5,
+  "SNAKE":0.4,
+  "OTTER":0.5,
+  "CHIMPANZEE":0.5,
 }
 
 
@@ -748,7 +761,8 @@ Game.prototype.makeAnimal = function(animal_type, pen) {
   animal.height_container.addChild(animal.sprite);
 
   if (animals[animal.type].movement == "walk_and_stand"
-    || animals[animal.type].movement == "arboreal") {
+    || animals[animal.type].movement == "arboreal"
+    || animals[animal.type].movement == "walk_and_swim") {
     animal.second_sprite = new PIXI.AnimatedSprite(sheet.animations[animals[animal.type].movement]);
     animal.second_sprite.scale.set(animal_scale, animal_scale);
     animal.second_sprite.anchor.set(0.5,0.75);
@@ -1049,6 +1063,7 @@ Game.prototype.makeAnimal = function(animal_type, pen) {
 
 
       if (animal.movement == "walk" || animal.movement == "walk_and_stand" 
+        || animal.movement == "walk_and_swim"
         || (animal.movement == "arboreal" && animal.arboreal_state == "on_ground")) {
         animal.sprite.y += animal.vy;
         animal.move();
@@ -1067,15 +1082,63 @@ Game.prototype.makeAnimal = function(animal_type, pen) {
           animal.land_angle = (Math.random() * 360) * Math.PI / 180;          
         }
 
-        if (animal.animated && !animal.sprite.playing) {
-          if (animal.movement == "walk_and_stand") {
-            animal.sprite.visible = true;
-            animal.second_sprite.visible = false;
+        
+        if (animal.movement != "walk_and_swim") {
+          if (animal.animated && !animal.sprite.playing) {
+            if (animal.movement == "walk_and_stand") {
+              animal.sprite.visible = true;
+              animal.second_sprite.visible = false;
+            }
+
+            // This starts the main animation for regular animals
+            animal.sprite.gotoAndStop(dice(animal.sprite.totalFrames));
+            animal.sprite.animationSpeed = animated_animals[animal.type];
+            animal.sprite.play();
+          }
+        }
+
+        if (animal.movement == "walk_and_swim") {
+          if (animal.animated && !animal.sprite.playing && !animal.second_sprite.playing) {
+            if (pen.land == "water" ||
+            (pen.pond != null && pointInsidePolygon([animal.x, animal.y], pen.pond) == true)) {
+              console.log("otter in water")
+              animal.sprite.visible = false;
+              animal.sprite.gotoAndStop(0);
+              animal.second_sprite.visible = true;
+              animal.second_sprite.gotoAndStop(dice(animal.second_sprite.totalFrames));
+              animal.second_sprite.animationSpeed = animated_animals[animal.type];
+              animal.second_sprite.play();
+            } else {
+              animal.sprite.visible = true;
+              animal.second_sprite.visible = false;
+              animal.second_sprite.gotoAndStop(0);
+              animal.sprite.gotoAndStop(dice(animal.sprite.totalFrames));
+              animal.sprite.animationSpeed = animated_animals[animal.type];
+              animal.sprite.play();
+            }
           }
 
-          animal.sprite.gotoAndStop(dice(animal.sprite.totalFrames));
-          animal.sprite.animationSpeed = animated_animals[animal.type];
-          animal.sprite.play();
+          // Cover the switching case
+          if (pen.land == "water" ||
+            (pen.pond != null && pointInsidePolygon([animal.x, animal.y], pen.pond) == true)) {
+            if (animal.sprite.visible == true) {
+              animal.sprite.visible = false;
+              animal.sprite.gotoAndStop(0);
+              animal.second_sprite.visible = true;
+              animal.second_sprite.gotoAndStop(dice(animal.second_sprite.totalFrames));
+              animal.second_sprite.animationSpeed = animated_animals[animal.type];
+              animal.second_sprite.play();
+            }
+          } else {
+            if (animal.second_sprite.visible == true) {
+              animal.sprite.visible = true;
+              animal.second_sprite.visible = false;
+              animal.second_sprite.gotoAndStop(0);
+              animal.sprite.gotoAndStop(dice(animal.sprite.totalFrames));
+              animal.sprite.animationSpeed = animated_animals[animal.type];
+              animal.sprite.play();
+            }
+          }
         }
 
         let stop_chance = 0.005;

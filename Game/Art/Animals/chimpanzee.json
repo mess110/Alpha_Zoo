@@ -1,0 +1,503 @@
+{"frames": {
+
+"chimpanzee00.png":
+{
+	"frame": {"x":1585,"y":923,"w":140,"h":203},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":171,"y":228,"w":140,"h":203},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee01.png":
+{
+	"frame": {"x":809,"y":984,"w":142,"h":203},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":167,"y":229,"w":142,"h":203},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee02.png":
+{
+	"frame": {"x":1465,"y":1,"w":160,"h":205},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":163,"y":227,"w":160,"h":205},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee03.png":
+{
+	"frame": {"x":593,"y":184,"w":180,"h":206},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":157,"y":225,"w":180,"h":206},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee04.png":
+{
+	"frame": {"x":203,"y":209,"w":196,"h":207},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":151,"y":224,"w":196,"h":207},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee05.png":
+{
+	"frame": {"x":1,"y":421,"w":204,"h":202},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":228,"w":204,"h":202},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee06.png":
+{
+	"frame": {"x":184,"y":627,"w":200,"h":197},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":141,"y":233,"w":200,"h":197},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee07.png":
+{
+	"frame": {"x":401,"y":188,"w":201,"h":190},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":144,"y":239,"w":201,"h":190},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee08.png":
+{
+	"frame": {"x":576,"y":806,"w":196,"h":185},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":153,"y":244,"w":196,"h":185},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee09.png":
+{
+	"frame": {"x":1320,"y":561,"w":185,"h":180},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":166,"y":247,"w":185,"h":180},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee10.png":
+{
+	"frame": {"x":1665,"y":531,"w":175,"h":178},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":246,"w":175,"h":178},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee11.png":
+{
+	"frame": {"x":1520,"y":741,"w":177,"h":180},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":178,"y":243,"w":177,"h":180},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee12.png":
+{
+	"frame": {"x":1406,"y":933,"w":177,"h":181},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":178,"y":241,"w":177,"h":181},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee13.png":
+{
+	"frame": {"x":1533,"y":353,"w":176,"h":184},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":237,"w":176,"h":184},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee14.png":
+{
+	"frame": {"x":1155,"y":366,"w":177,"h":193},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":234,"w":177,"h":193},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee15.png":
+{
+	"frame": {"x":965,"y":792,"w":178,"h":198},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":178,"y":233,"w":178,"h":198},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee16.png":
+{
+	"frame": {"x":791,"y":378,"w":176,"h":198},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":234,"w":176,"h":198},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee17.png":
+{
+	"frame": {"x":787,"y":591,"w":178,"h":199},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":176,"y":233,"w":178,"h":199},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee18.png":
+{
+	"frame": {"x":609,"y":392,"w":180,"h":197},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":174,"y":235,"w":180,"h":197},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee19.png":
+{
+	"frame": {"x":969,"y":374,"w":184,"h":188},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":170,"y":244,"w":184,"h":188},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee20.png":
+{
+	"frame": {"x":1130,"y":171,"w":193,"h":179},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":166,"y":253,"w":193,"h":179},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee21.png":
+{
+	"frame": {"x":763,"y":804,"w":200,"h":178},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":160,"y":254,"w":200,"h":178},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee22.png":
+{
+	"frame": {"x":428,"y":1,"w":206,"h":181},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":154,"y":250,"w":206,"h":181},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee23.png":
+{
+	"frame": {"x":397,"y":418,"w":210,"h":184},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":149,"y":246,"w":210,"h":184},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee24.png":
+{
+	"frame": {"x":1,"y":851,"w":213,"h":186},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":145,"y":244,"w":213,"h":186},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee25.png":
+{
+	"frame": {"x":207,"y":1,"w":219,"h":185},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":140,"y":245,"w":219,"h":185},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee26.png":
+{
+	"frame": {"x":1,"y":627,"w":222,"h":181},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":138,"y":248,"w":222,"h":181},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee27.png":
+{
+	"frame": {"x":383,"y":627,"w":219,"h":177},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":142,"y":252,"w":219,"h":177},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee28.png":
+{
+	"frame": {"x":636,"y":1,"w":212,"h":173},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":151,"y":255,"w":212,"h":173},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee29.png":
+{
+	"frame": {"x":953,"y":173,"w":199,"h":175},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":163,"y":253,"w":199,"h":175},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee30.png":
+{
+	"frame": {"x":1662,"y":163,"w":181,"h":178},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":178,"y":247,"w":181,"h":178},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee31.png":
+{
+	"frame": {"x":1338,"y":748,"w":180,"h":183},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":178,"y":240,"w":180,"h":183},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee32.png":
+{
+	"frame": {"x":1219,"y":961,"w":178,"h":185},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":178,"y":237,"w":178,"h":185},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee33.png":
+{
+	"frame": {"x":1484,"y":163,"w":176,"h":188},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":178,"y":233,"w":176,"h":188},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee34.png":
+{
+	"frame": {"x":1143,"y":564,"w":175,"h":196},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":230,"w":175,"h":196},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee35.png":
+{
+	"frame": {"x":775,"y":176,"w":176,"h":200},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":177,"y":229,"w":176,"h":200},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee36.png":
+{
+	"frame": {"x":967,"y":578,"w":174,"h":199},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":178,"y":232,"w":174,"h":199},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee37.png":
+{
+	"frame": {"x":1311,"y":166,"w":171,"h":198},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":180,"y":234,"w":171,"h":198},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee38.png":
+{
+	"frame": {"x":1165,"y":762,"w":171,"h":197},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":177,"y":235,"w":171,"h":197},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee39.png":
+{
+	"frame": {"x":1334,"y":366,"w":169,"h":197},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":174,"y":235,"w":169,"h":197},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee40.png":
+{
+	"frame": {"x":1058,"y":1,"w":168,"h":199},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":170,"y":233,"w":168,"h":199},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee41.png":
+{
+	"frame": {"x":1014,"y":972,"w":166,"h":203},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":166,"y":229,"w":166,"h":203},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee42.png":
+{
+	"frame": {"x":1259,"y":1,"w":163,"h":204},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":161,"y":227,"w":163,"h":204},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee43.png":
+{
+	"frame": {"x":850,"y":1,"w":170,"h":206},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":155,"y":225,"w":170,"h":206},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee44.png":
+{
+	"frame": {"x":205,"y":418,"w":190,"h":207},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":149,"y":224,"w":190,"h":207},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee45.png":
+{
+	"frame": {"x":1,"y":1,"w":206,"h":204},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":143,"y":226,"w":206,"h":204},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee46.png":
+{
+	"frame": {"x":1,"y":209,"w":210,"h":200},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":139,"y":230,"w":210,"h":200},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee47.png":
+{
+	"frame": {"x":189,"y":829,"w":198,"h":196},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":139,"y":233,"w":198,"h":196},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee48.png":
+{
+	"frame": {"x":387,"y":806,"w":187,"h":197},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":144,"y":232,"w":187,"h":197},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee49.png":
+{
+	"frame": {"x":604,"y":604,"w":181,"h":198},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":148,"y":231,"w":181,"h":198},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee50.png":
+{
+	"frame": {"x":1502,"y":537,"w":161,"h":202},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":162,"y":226,"w":161,"h":202},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee51.png":
+{
+	"frame": {"x":1672,"y":1,"w":142,"h":202},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":177,"y":223,"w":142,"h":202},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee52.png":
+{
+	"frame": {"x":1842,"y":145,"w":141,"h":197},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":177,"y":226,"w":141,"h":197},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee53.png":
+{
+	"frame": {"x":1842,"y":678,"w":140,"h":193},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":178,"y":230,"w":140,"h":193},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee54.png":
+{
+	"frame": {"x":1867,"y":873,"w":139,"h":188},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":234,"w":139,"h":188},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee55.png":
+{
+	"frame": {"x":1842,"y":484,"w":142,"h":192},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":180,"y":234,"w":142,"h":192},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee56.png":
+{
+	"frame": {"x":1699,"y":711,"w":141,"h":201},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":229,"w":141,"h":201},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee57.png":
+{
+	"frame": {"x":600,"y":1004,"w":135,"h":207},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":177,"y":224,"w":135,"h":207},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee58.png":
+{
+	"frame": {"x":387,"y":1005,"w":134,"h":211},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":175,"y":221,"w":134,"h":211},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee59.png":
+{
+	"frame": {"x":1719,"y":346,"w":136,"h":209},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":173,"y":223,"w":136,"h":209},
+	"sourceSize": {"w":512,"h":512}
+},
+"chimpanzee60.png":
+{
+	"frame": {"x":1727,"y":914,"w":138,"h":204},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":172,"y":227,"w":138,"h":204},
+	"sourceSize": {"w":512,"h":512}
+}},
+"animations": {
+	"chimpanzee": ["chimpanzee00.png","chimpanzee01.png","chimpanzee02.png","chimpanzee03.png","chimpanzee04.png","chimpanzee05.png","chimpanzee06.png","chimpanzee07.png","chimpanzee08.png","chimpanzee09.png","chimpanzee10.png","chimpanzee11.png","chimpanzee12.png","chimpanzee13.png","chimpanzee14.png","chimpanzee15.png","chimpanzee16.png","chimpanzee17.png","chimpanzee18.png","chimpanzee19.png","chimpanzee20.png","chimpanzee21.png","chimpanzee22.png","chimpanzee23.png","chimpanzee24.png","chimpanzee25.png","chimpanzee26.png","chimpanzee27.png","chimpanzee28.png","chimpanzee29.png","chimpanzee30.png","chimpanzee31.png","chimpanzee32.png","chimpanzee33.png","chimpanzee34.png","chimpanzee35.png","chimpanzee36.png","chimpanzee37.png","chimpanzee38.png","chimpanzee39.png","chimpanzee40.png","chimpanzee41.png","chimpanzee42.png","chimpanzee43.png","chimpanzee44.png","chimpanzee45.png","chimpanzee46.png","chimpanzee47.png","chimpanzee48.png","chimpanzee49.png","chimpanzee50.png","chimpanzee51.png","chimpanzee52.png","chimpanzee53.png","chimpanzee54.png","chimpanzee55.png","chimpanzee56.png","chimpanzee57.png","chimpanzee58.png","chimpanzee59.png","chimpanzee60.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "chimpanzee.png",
+	"format": "RGBA8888",
+	"size": {"w":2007,"h":1140},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:4cbcfe413d34aaabd51e17502726518c:10fc96a9667bd5871fffbfaa3137f551:6cb8956cbcb7a622aee192820ce82a89$"
+}
+}
