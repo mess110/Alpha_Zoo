@@ -27,16 +27,16 @@ All programming and art assets by Matthew Carlin. Sound is from splice.com, free
 - Animal animations are Midjourney generated with cleanup work by Matthew Carlin
 
 
-# In Progress (1.4)
-
-Working on some of these things:
-- Marimba!
-- Animal animations
-- Spoken letters
-
 
 
 # Version history
+
+
+1.4
+- Marimba!
+- Animal animations
+- Spoken letters, buildings, and animal names
+
 
 1.3
 - Train!
