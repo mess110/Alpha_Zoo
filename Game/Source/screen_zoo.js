@@ -67,6 +67,13 @@ let npc_list = [
   "yellow_cat", "orange_cat", "light_cat"
 ];
 
+let music_slider_top = 153;
+let music_slider_left = 265;
+let sound_slider_left = 486;
+let sound_slider_top = 256;
+let voice_switch_left = 138;
+let voice_switch_top = 357;
+
 Game.prototype.resetZooScreen = function() {
   var self = this;
   var screen = this.screens["zoo"];
@@ -478,8 +485,6 @@ Game.prototype.makeMenu = function() {
   this.menu_layer.visible = false;
 
   this.menu_selections = [];
-  this.sound_slider_left = 689;
-  this.music_slider_left = 324;
   this.menu_selection_number = 0;
 
   this.main_menu_background = new PIXI.Sprite(PIXI.Texture.from("Art/main_menu_background.png"));
@@ -490,65 +495,81 @@ Game.prototype.makeMenu = function() {
   this.menu_selections[0] = new PIXI.Text("MUSIC", {fontFamily: default_font, fontSize: 56, fill: 0xFFFFFF, letterSpacing: 6, align: "left"});
   this.menu_selections[0].tint = 0x000000;
   this.menu_selections[0].anchor.set(0,0);
-  this.menu_selections[0].position.set(169, 141);
+  this.menu_selections[0].position.set(110, 130); // previously 169, 141
   this.menu_layer.addChild(this.menu_selections[0]);
 
   this.music_slider = new PIXI.Sprite(PIXI.Texture.from("Art/slider.png"));
   this.music_slider.anchor.set(0,0.5);
-  this.music_slider.position.set(this.music_slider_left,164);
+  this.music_slider.position.set(music_slider_left,music_slider_top);
   this.menu_layer.addChild(this.music_slider);
 
   this.music_slider_bar = new PIXI.Sprite(PIXI.Texture.from("Art/slider_bar.png"));
   this.music_slider_bar.anchor.set(0,0.5);
-  this.music_slider_bar.position.set(this.music_slider_left + 150 * music_volume, 164);
+  this.music_slider_bar.position.set(music_slider_left + 150 * music_volume, music_slider_top);
   this.menu_layer.addChild(this.music_slider_bar);
   
   this.menu_selections[1] = new PIXI.Text("SOUND", {fontFamily: default_font, fontSize: 56, fill: 0xFFFFFF, letterSpacing: 6, align: "left"});
   this.menu_selections[1].tint = 0x000000;
   this.menu_selections[1].anchor.set(0,0);
-  this.menu_selections[1].position.set(528, 250);
+  this.menu_selections[1].position.set(325, 233); // previously 528, 250
   this.menu_layer.addChild(this.menu_selections[1]);
-
-  this.sound_slider_left = 689;
 
   this.sound_slider = new PIXI.Sprite(PIXI.Texture.from("Art/slider.png"));
   this.sound_slider.anchor.set(0,0.5);
-  this.sound_slider.position.set(this.sound_slider_left, 273);
+  this.sound_slider.position.set(sound_slider_left, sound_slider_top);
   this.menu_layer.addChild(this.sound_slider);
 
   this.sound_slider_bar = new PIXI.Sprite(PIXI.Texture.from("Art/slider_bar.png"));
   this.sound_slider_bar.anchor.set(0,0.5);
-  this.sound_slider_bar.position.set(this.sound_slider_left + 150 * sound_volume, 273);
+  this.sound_slider_bar.position.set(sound_slider_left + 150 * sound_volume, sound_slider_top);
   this.menu_layer.addChild(this.sound_slider_bar);
 
-  this.menu_selections[2] = new PIXI.Text("NEW SMALL ZOO", {fontFamily: default_font, fontSize: 56, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
+  this.menu_selections[2] = new PIXI.Text("VOICE", {fontFamily: default_font, fontSize: 40, fill: 0xFFFFFF, letterSpacing: 6, align: "left"});
   this.menu_selections[2].tint = 0x000000;
   this.menu_selections[2].anchor.set(0,0);
-  this.menu_selections[2].position.set(152, 396);
+  this.menu_selections[2].position.set(voice_switch_left, voice_switch_top); // previously 528, 250
   this.menu_layer.addChild(this.menu_selections[2]);
 
-  this.menu_selections[3] = new PIXI.Text("NEW LARGE ZOO", {fontFamily: default_font, fontSize: 56, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
+  let voice_bar = new PIXI.Text("|", {fontFamily: default_font, fontSize: 40, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
+  voice_bar.tint = 0x000000;
+  voice_bar.anchor.set(0,0);
+  voice_bar.position.set(voice_switch_left + 110, voice_switch_top - 2);
+  this.menu_layer.addChild(voice_bar);
+
+  this.voice_alt = new PIXI.Text("NO VOICE", {fontFamily: default_font, fontSize: 40, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
+  this.voice_alt.tint = 0x000000;
+  this.voice_alt.anchor.set(0,0);
+  this.voice_alt.position.set(voice_switch_left + 110 + 36, voice_switch_top);
+  this.menu_layer.addChild(this.voice_alt);
+
+  this.menu_selections[3] = new PIXI.Text("NEW SMALL ZOO", {fontFamily: default_font, fontSize: 56, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
   this.menu_selections[3].tint = 0x000000;
   this.menu_selections[3].anchor.set(0,0);
-  this.menu_selections[3].position.set(477, 539);
+  this.menu_selections[3].position.set(302, 551);
   this.menu_layer.addChild(this.menu_selections[3]);
 
-  this.menu_selections[4] = new PIXI.Text("WINDOWED", {fontFamily: default_font, fontSize: 36, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
+  this.menu_selections[4] = new PIXI.Text("NEW LARGE ZOO", {fontFamily: default_font, fontSize: 56, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
   this.menu_selections[4].tint = 0x000000;
   this.menu_selections[4].anchor.set(0,0);
-  this.menu_selections[4].position.set(117, 709);
+  this.menu_selections[4].position.set(109, 654);
   this.menu_layer.addChild(this.menu_selections[4]);
 
-  let wfs_bar = new PIXI.Text("|", {fontFamily: default_font, fontSize: 36, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
+  this.menu_selections[5] = new PIXI.Text("WINDOWED", {fontFamily: default_font, fontSize: 32, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
+  this.menu_selections[5].tint = 0x000000;
+  this.menu_selections[5].anchor.set(0,0);
+  this.menu_selections[5].position.set(313, 775);
+  this.menu_layer.addChild(this.menu_selections[5]);
+
+  let wfs_bar = new PIXI.Text("|", {fontFamily: default_font, fontSize: 32, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
   wfs_bar.tint = 0x000000;
   wfs_bar.anchor.set(0,0);
-  wfs_bar.position.set(277, 707);
+  wfs_bar.position.set(464, 773);
   this.menu_layer.addChild(wfs_bar);
 
-  this.wfs_alt = new PIXI.Text("FULL SCREEN", {fontFamily: default_font, fontSize: 36, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
+  this.wfs_alt = new PIXI.Text("FULL SCREEN", {fontFamily: default_font, fontSize: 32, fill: 0xFFFFFF, letterSpacing: 4, align: "left"});
   this.wfs_alt.tint = 0x000000;
   this.wfs_alt.anchor.set(0,0);
-  this.wfs_alt.position.set(309, 709);
+  this.wfs_alt.position.set(492, 775);
   this.menu_layer.addChild(this.wfs_alt);
 
   this.changeMenuSelection(0);
@@ -578,13 +599,21 @@ Game.prototype.makeMenu = function() {
 
 Game.prototype.changeMenuSelection = function(delta) {
   this.menu_selection_number = (this.menu_selection_number + delta + this.menu_selections.length) % this.menu_selections.length;
-  this.wfs_alt.tint = 0x000000;
+
   for (let i = 0; i < this.menu_selections.length; i++) {
     this.menu_selections[i].tint = 0x000000;
     if (i == this.menu_selection_number) this.menu_selections[i].tint = menu_selection_color;
   }
-  if (this.menu_selection_number == 4 && game_fullscreen == true) {
-    this.menu_selections[4].tint = 0x000000;
+
+  this.voice_alt.tint = 0x000000;
+  if (this.menu_selection_number == (2) && use_voice == false) {
+    this.menu_selections[(2)].tint = 0x000000;
+    this.voice_alt.tint = menu_selection_color;
+  }
+
+  this.wfs_alt.tint = 0x000000;
+  if (this.menu_selection_number == (5) && game_fullscreen == true) {
+    this.menu_selections[(5)].tint = 0x000000;
     this.wfs_alt.tint = menu_selection_color;
   }
 }
@@ -672,7 +701,7 @@ Game.prototype.zooKeyDown = function(ev) {
     if (key === "Escape") {
       this.zoo_mode = "active";
       this.marimba_layer.visible = false;
-      if (this.music == null && music_volume > 0) setMusic("background_music");
+      if (current_music == null && music_volume > 0) setMusic("background_music");
     }
 
 
@@ -737,33 +766,37 @@ Game.prototype.zooKeyDown = function(ev) {
 
   if (this.zoo_mode == "menu") {
     if (key === "ArrowUp") {
+      soundEffect("pop");
       this.changeMenuSelection(-1);
     } else if (key === "ArrowDown") {
+      soundEffect("pop");
       this.changeMenuSelection(1);
     }
 
 
     if (this.menu_selection_number == 0 && key == "ArrowLeft") {
+      console.log("setting music volume down");
       if (music_volume >= 0.1) {
         music_volume -= 0.1;
         if (music_volume < 0.001) music_volume = 0;
         music_volume = Math.round(music_volume * 10) / 10;
         localStorage.setItem("music_volume", music_volume);
-        if (this.music != null) this.music.volume = music_volume;
-        if (this.music == null && music_volume > 0) setMusic("background_music");
-        this.music_slider_bar.position.set(this.music_slider_left + 150 * music_volume, 164);
+        if (current_music != null) current_music.volume(music_volume);
+        if (current_music == null && music_volume > 0) setMusic("background_music");
+        this.music_slider_bar.position.set(music_slider_left + 150 * music_volume, music_slider_top);
       }
     }
 
     if (this.menu_selection_number == 0 && key == "ArrowRight") {
+      console.log("setting music volume up");
       if (music_volume <= 0.9) {
         music_volume += 0.1;
         if (music_volume > 0.999) music_volume = 1;
         music_volume = Math.round(music_volume * 10) / 10;
         localStorage.setItem("music_volume", music_volume);
-        if (this.music != null) this.music.volume = music_volume;
-        if (this.music == null && music_volume > 0) setMusic("background_music");
-        this.music_slider_bar.position.set(this.music_slider_left + 150 * music_volume, 164);
+        if (current_music != null) current_music.volume(music_volume);
+        if (current_music == null && music_volume > 0) setMusic("background_music");
+        this.music_slider_bar.position.set(music_slider_left + 150 * music_volume, music_slider_top);
       }
     }
 
@@ -774,7 +807,7 @@ Game.prototype.zooKeyDown = function(ev) {
         sound_volume = Math.round(sound_volume * 10) / 10;
         localStorage.setItem("sound_volume", sound_volume);
         soundEffect("pop");
-        this.sound_slider_bar.position.set(this.sound_slider_left + 150 * sound_volume, 273);
+        this.sound_slider_bar.position.set(sound_slider_left + 150 * sound_volume, sound_slider_top);
       }
     }
 
@@ -785,23 +818,23 @@ Game.prototype.zooKeyDown = function(ev) {
         sound_volume = Math.round(sound_volume * 10) / 10;
         localStorage.setItem("sound_volume", sound_volume);
         soundEffect("pop");
-        this.sound_slider_bar.position.set(this.sound_slider_left + 150 * sound_volume, 273);
+        this.sound_slider_bar.position.set(sound_slider_left + 150 * sound_volume, sound_slider_top);
       }
     }
 
-    if (this.menu_selection_number == 4 && (key == "ArrowLeft" || key == "ArrowRight" || key == "Enter")) {
-      game_fullscreen = !game_fullscreen;
-      if (game_fullscreen == true) {
-        window.gameFullScreen(game_fullscreen);
-      } else {
-        window.gameFullScreen(game_fullscreen);
-        window.gameFullScreen(game_fullscreen); // twice to force the resize.
+
+    if (this.menu_selection_number == 2 && (key == "ArrowLeft" || key == "ArrowRight")) {
+      use_voice = !use_voice;
+      localStorage.setItem("use_voice", use_voice);
+      if (use_voice) {
+        soundEffect(pick(lower_array));
       }
       this.keymap = {};
       this.changeMenuSelection(0);
     }
 
-    if (this.menu_selection_number == 2 && key == "Enter") {
+
+    if (this.menu_selection_number == 3 && key == "Enter") {
       this.zoo_mode = "fading";
       this.fadeToBlack(1000);
       delay(function() {
@@ -811,7 +844,7 @@ Game.prototype.zooKeyDown = function(ev) {
       }, 1000);
     }
 
-    if (this.menu_selection_number == 3 && key == "Enter") {
+    if (this.menu_selection_number == 4 && key == "Enter") {
       this.zoo_mode = "fading";
       this.fadeToBlack(1000);
       delay(function() {
@@ -819,6 +852,18 @@ Game.prototype.zooKeyDown = function(ev) {
         self.zoo_size = localStorage.getItem("zoo_size");
         self.initializeZoo();
       }, 1000);
+    }
+
+    if (this.menu_selection_number == 5 && (key == "ArrowLeft" || key == "ArrowRight" || key == "Enter")) {
+      game_fullscreen = !game_fullscreen;
+      if (game_fullscreen == true) {
+        window.gameFullScreen(game_fullscreen);
+      } else {
+        window.gameFullScreen(game_fullscreen);
+        window.gameFullScreen(game_fullscreen); // twice to force the resize.
+      }
+      this.keymap = {};
+      this.changeMenuSelection(0);
     }
   }
 
@@ -925,9 +970,9 @@ Game.prototype.addType = function(letter) {
   var self = this;
   var screen = this.screens["typing"];
 
-  console.log("i am playing a sound effect");
-  console.log(letter);
-  soundEffect(letter.toLowerCase());
+  if (use_voice) {
+    soundEffect(letter.toLowerCase());
+  }
 
   if (this.typing_text.text.length < this.thing_to_type.length) {
     if (this.thing_to_type[this.typing_text.text.length] == "_") {
@@ -944,10 +989,11 @@ Game.prototype.addType = function(letter) {
     let thing_to_type = this.thing_to_type;
     let pen_to_fix = this.pen_to_fix;
 
-    delay(function() {
-      console.log("Try playing the sound " + "spoken_" + thing_to_type.toLowerCase())
-      soundEffect("spoken_" + thing_to_type.toLowerCase())
-    }, 600)
+    if (use_voice) {
+      delay(function() {
+        soundEffect("spoken_" + thing_to_type.toLowerCase())
+      }, 600)
+    }
 
     delay(function() {
       if (pen_to_fix.special != "TRAIN") {
@@ -1020,6 +1066,10 @@ Game.prototype.addDisplayType = function(letter) {
   var screen = this.screens["zoo"];
 
   let prefix = false;
+
+  if (use_voice) {
+    soundEffect(letter.toLowerCase());
+  }
 
   if (this.action_typing_text[this.action_default_slot].text.length  == 0) {
     // only perform this prefix check if you're not using the existing field.

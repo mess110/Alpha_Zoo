@@ -199,6 +199,10 @@ Game.prototype.addCafeType = function(letter) {
   let new_text = this.cafe_last_prefix + letter;
   let one_text_is_filled = false;
 
+  if (use_voice) {
+    soundEffect(letter.toLowerCase());
+  }
+
   for (let i = 0; i < this.cafe_typing_texts.length; i++) {
     let typing_text = this.cafe_typing_texts[i];
     if (typing_text.target.indexOf(new_text) == 0) {

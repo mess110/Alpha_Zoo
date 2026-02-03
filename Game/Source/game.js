@@ -55,6 +55,8 @@ class Game {
     if (music_volume < 0.001) music_volume = 0.0;
     music_volume = Math.round(music_volume * 10) / 10;
 
+    use_voice = localStorage.getItem("use_voice") == "false" ? false : true;
+
     game_fullscreen = window.gameIsFullScreen();
 
     console.log(sound_volume);

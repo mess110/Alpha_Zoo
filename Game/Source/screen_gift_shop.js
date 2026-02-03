@@ -543,6 +543,10 @@ Game.prototype.giftShopAddType = function(letter) {
   var self = this;
   let screen = this.screens["gift_shop"];
 
+  if (use_voice) {
+    soundEffect(letter.toLowerCase());
+  }
+
   if (this.gift_shop_typing_text.text.length < this.gift_shop_typing_slot.name.length) {
     if (this.gift_shop_typing_slot.name[this.gift_shop_typing_text.text.length] == "_") {
       this.gift_shop_typing_text.text += " ";
