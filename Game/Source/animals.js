@@ -848,6 +848,7 @@ Game.prototype.makeAnimal = function(animal_type, pen) {
             food.visible = false;
             game.dollar_bucks += 1;
             game.updateAnimalCount();
+            // Save triggered by auto-save timer (feeding is frequent)
           }
           animal.shake = self.markTime();
 

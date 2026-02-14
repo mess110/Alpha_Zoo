@@ -569,7 +569,8 @@ Game.prototype.giftShopAddType = function(letter) {
       self.dollar_bucks -= slot.price;
       self.gift_shop_dollar_bucks_text.text = self.dollar_bucks;
       flicker(self.gift_shop_dollar_bucks_text, 300, 0x000000, 0xFFFFFF);
-      
+      self.saveZooState();
+
 
       if (slot.type == "stuffie") {
         if (slot.name.includes("no_")) {

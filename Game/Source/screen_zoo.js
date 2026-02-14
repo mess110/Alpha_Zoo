@@ -82,16 +82,59 @@ Game.prototype.resetZooScreen = function() {
 
   // Make the map. These methods are in land.js.
 
-  let valid = false;
-  for (let i = 0; i < 30; i++) {
-    if (!valid) {
-      console.log("rolling a map");
+  // Check if map persistence is enabled and if save exists
+  let has_save = window.hasZooSave();  // This checks both the setting and file existence
+
+  if (has_save) {
+    console.log("Loading saved zoo (persistMap enabled)");
+    let save_data = window.loadZoo();
+
+    // Validate save data has all required fields
+    let is_valid = save_data &&
+                   save_data.version === 1 &&
+                   save_data.zoo &&
+                   save_data.zoo.pens &&
+                   save_data.zoo.squares &&
+                   save_data.zoo.vertices;
+
+    if (is_valid) {
+      // Initialize map container
       this.initializeMap();
-      this.makeMapGroups();
-      this.makeMapPath();
-      this.makeMapPens();
-      valid = this.checkMapValidity();
+
+      // Restore from save instead of generating
+      this.deserializeZooState(save_data);
+    } else {
+      // Save file corrupted or invalid version, fall back to generation
+      console.log("Save file invalid, generating new zoo");
+      let valid = false;
+      for (let i = 0; i < 30; i++) {
+        if (!valid) {
+          console.log("rolling a map");
+          this.initializeMap();
+          this.makeMapGroups();
+          this.makeMapPath();
+          this.makeMapPens();
+          valid = this.checkMapValidity();
+        }
+      }
+      this.loaded_from_save = false;
     }
+  } else {
+    // Either persistMap is disabled or no save exists - generate new
+    console.log("Generating new zoo (persistMap disabled or no save)");
+    // Original procedural generation
+    let valid = false;
+    for (let i = 0; i < 30; i++) {
+      if (!valid) {
+        console.log("rolling a map");
+        this.initializeMap();
+        this.makeMapGroups();
+        this.makeMapPath();
+        this.makeMapPens();
+        valid = this.checkMapValidity();
+      }
+    }
+    this.loaded_from_save = false;
   }
   
 
@@ -123,8 +166,11 @@ Game.prototype.resetZooScreen = function() {
   this.makeMarimbaScreen();
 
   // Populate the map with things. These methods are in land.js.
-  this.designatePens();
-  this.swapPens();
+  // Skip pen designation/swapping if loaded from save (animals/buildings already assigned)
+  if (!this.loaded_from_save) {
+    this.designatePens();
+    this.swapPens();
+  }
   this.prepPondsAndTerraces();
   this.drawMap();
   this.playerAndBoundaries();
@@ -133,7 +179,17 @@ Game.prototype.resetZooScreen = function() {
   this.addTrains();
   
   this.sortLayer(this.map.decoration_layer, this.decorations);
-  this.greyAllActivePens();
+
+  // Check if we should persist pen states across sessions
+  let persist_pen_states = window.getPersistPenStates();
+
+  // Only grey all pens if generating new map OR if persistPenStates is disabled
+  if (!this.loaded_from_save || !persist_pen_states) {
+    this.greyAllActivePens();
+  } else {
+    // Apply the saved grey/ungrey state to visual elements (only if persistPenStates is enabled)
+    this.applyLoadedPenStates();
+  }
   // this.ungreyAll();
 
   this.initializeScreen("gift_shop");
@@ -648,7 +704,10 @@ Game.prototype.playerAndBoundaries = function() {
   this.player.position.set(min_location[0], min_location[1]);
   this.decorations.push(this.player);
 
-  this.dollar_bucks = 6;
+  // Only initialize dollar_bucks if not loaded from save
+  if (!this.loaded_from_save) {
+    this.dollar_bucks = 6;
+  }
 
   this.npcs = [];
 
@@ -838,6 +897,8 @@ Game.prototype.zooKeyDown = function(ev) {
       this.zoo_mode = "fading";
       this.fadeToBlack(1000);
       delay(function() {
+        // Delete existing map save so new zoo size generates fresh map
+        window.deleteZooSave();
         localStorage.setItem("zoo_size", 6);
         self.zoo_size = localStorage.getItem("zoo_size");
         self.initializeZoo();
@@ -848,6 +909,8 @@ Game.prototype.zooKeyDown = function(ev) {
       this.zoo_mode = "fading";
       this.fadeToBlack(1000);
       delay(function() {
+        // Delete existing map save so new zoo size generates fresh map
+        window.deleteZooSave();
         localStorage.setItem("zoo_size", 8);
         self.zoo_size = localStorage.getItem("zoo_size");
         self.initializeZoo();
@@ -1014,6 +1077,7 @@ Game.prototype.addType = function(letter) {
         self.animals_obtained += 1;
         self.dollar_bucks += 2;
         self.updateAnimalCount();
+        self.saveZooState();
       }
 
       for (let i = 0; i < self.pen_to_fix.polygon.length; i++) {
@@ -1211,9 +1275,14 @@ Game.prototype.changeTypingText = function(new_word, found_pen) {
   var self = this;
   var screen = this.screens["zoo"];
 
+  // Guard against null/undefined new_word
+  if (new_word == null) {
+    return;
+  }
+
   this.thing_to_type = new_word;
   this.pen_to_fix = found_pen;
-  
+
   if (this.typing_backing != null) {
     this.typing_ui.removeChild(this.typing_backing);
     this.typing_backing.destroy();
@@ -1504,7 +1573,7 @@ Game.prototype.ungreyAll = function() {
 
 Game.prototype.greyAllActivePens = function() {
   // for (let i = 0; i < voronoi_size; i++) {
-  //   if(this.voronoi_metadata[i].use == true 
+  //   if(this.voronoi_metadata[i].use == true
   //     && this.voronoi_metadata[i].group != 5000
   //     && this.voronoi_metadata[i].animal != null) {
   //     this.grey(i);
@@ -1513,6 +1582,20 @@ Game.prototype.greyAllActivePens = function() {
   for (let i = 0; i < this.zoo_pens.length; i++) {
     if (this.zoo_pens[i].animal != null || this.zoo_pens[i].special != null) {
       this.grey(this.zoo_pens[i]);
+    }
+  }
+}
+
+// Apply saved grey/ungrey state to visual elements when loading from save
+Game.prototype.applyLoadedPenStates = function() {
+  for (let i = 0; i < this.zoo_pens.length; i++) {
+    let pen = this.zoo_pens[i];
+    if (pen.animal != null || pen.special != null) {
+      if (pen.state == "grey") {
+        this.grey(pen);
+      } else if (pen.state == "ungrey") {
+        this.ungrey(pen);
+      }
     }
   }
 }
@@ -2246,7 +2329,7 @@ Game.prototype.testMove = function(x, y, use_bounds, direction) {
   // for (let i = 0; i < voronoi_size; i++) {
   //   if (this.voronoi_metadata[i].use == true && this.voronoi_metadata[i].group != null) {
   for (let i = 0; i < this.zoo_pens.length; i++) {
-    if (this.zoo_pens[i].special != "RIVER" && pointInsidePolygon([tx, ty], this.zoo_pens[i].polygon)) {
+    if (this.zoo_pens[i].polygon && this.zoo_pens[i].special != "RIVER" && pointInsidePolygon([tx, ty], this.zoo_pens[i].polygon)) {
       return false;
     }
   }
@@ -2268,7 +2351,7 @@ Game.prototype.testMove = function(x, y, use_bounds, direction) {
   // check for train stations
   for (const [key, station] of Object.entries(this.stations)) {
     // console.log(station.polygon);
-    if (pointInsidePolygon([tx, ty], station.polygon)) {
+    if (station.polygon && pointInsidePolygon([tx, ty], station.polygon)) {
       return false;
     }
   }
@@ -2283,13 +2366,13 @@ Game.prototype.pointInPen = function(x, y, find_closest=false) {
   let closest_pen = null;
 
   for (const [key, station] of Object.entries(this.stations)) {
-    if (pointInsidePolygon([x, y], station.polygon)) {
+    if (station.polygon && pointInsidePolygon([x, y], station.polygon)) {
       return station;
     }
   } 
 
   for (let i = 0; i < this.zoo_pens.length; i++) {
-    if (this.zoo_pens[i].animal_objects != null || this.zoo_pens[i].special_object != null) {
+    if ((this.zoo_pens[i].animal_objects != null || this.zoo_pens[i].special_object != null) && this.zoo_pens[i].polygon) {
       if (pointInsidePolygon([x, y], this.zoo_pens[i].polygon)) {
         if (!find_closest) {
           return this.zoo_pens[i];
@@ -2370,7 +2453,7 @@ Game.prototype.checkPenProximity = function(x, y, direction) {
   }
 
   if (found_pen != null) {
-    if (found_pen.animal_objects != null) {
+    if (found_pen.animal_objects != null && found_pen.animal != null) {
       if (found_pen.animal != this.thing_to_type && found_pen.state == "grey") {
         this.changeTypingText(found_pen.animal, found_pen);
         if (this.display_ui.visible == true) {
@@ -2382,7 +2465,7 @@ Game.prototype.checkPenProximity = function(x, y, direction) {
           this.hideTypingText();
         }
       }
-    } else if (found_pen.special_object != null) {
+    } else if (found_pen.special_object != null && found_pen.special != null) {
       if (found_pen.special != this.thing_to_type && found_pen.state == "grey") {
         this.changeTypingText(found_pen.special, found_pen);
         if (this.display_ui.visible == true) {
@@ -2547,6 +2630,15 @@ Game.prototype.updateZoo = function(diff) {
 
   if(this.player == null) return;
 
+  // Auto-save every 60 seconds
+  if (this.last_auto_save == null) {
+    this.last_auto_save = this.markTime();
+  }
+  if (this.timeSince(this.last_auto_save) > 60000) {
+    this.saveZooState();
+    this.last_auto_save = this.markTime();
+  }
+
   if (this.zoo_mode == "active") this.updatePlayer();
 
   if (this.zoo_mode == "ferris_wheel") this.ferris_wheel.update(fractional);
@@ -2593,12 +2685,18 @@ Game.prototype.updateZoo = function(diff) {
     }
   }
 
-  for (let i = 0; i < this.npcs.length; i++) {
-    this.updateNPC(this.npcs[i]);
+  // Only update NPCs when zoo is active (not during loading)
+  if (this.zoo_mode != "loading") {
+    for (let i = 0; i < this.npcs.length; i++) {
+      this.updateNPC(this.npcs[i]);
+    }
   }
 
-  for (let i = 0; i < this.trains.length; i++) {
-    this.trains[i].update();
+  // Only update trains when zoo is active (not during loading)
+  if (this.zoo_mode != "loading" && this.trains) {
+    for (let i = 0; i < this.trains.length; i++) {
+      this.trains[i].update();
+    }
   }
 
   if (this.zoo_mode == "active" && this.map_visible == false) {

@@ -1175,6 +1175,11 @@ Game.prototype.prepPondsAndTerraces = function() {
 
     if (pen.land != null && pen.special == null && pen.animal != null) {
 
+      // Skip if loaded from save and inner_polygon already exists
+      if (this.loaded_from_save && pen.inner_polygon && pen.inner_polygon.length > 0) {
+        continue;
+      }
+
       if (pen.land == "water") {
         pen.inner_polygon = shrinkPolygon(pen.polygon, pen.cx, pen.cy, 0.92);
       }
@@ -1241,7 +1246,7 @@ Game.prototype.prepPondsAndTerraces = function() {
           for (let j = 0; j < 360; j+= 25 + Math.random() * 10) {
             let point_x = pond_x + (100 + Math.random() * 40) * Math.cos(j * Math.PI / 180);
             let point_y = pond_y + (80 + Math.random() * 30) * Math.sin(j * Math.PI / 180);
-            if (pointInsidePolygon([point_x, point_y], pen.polygon)) {
+            if (pen.polygon && pointInsidePolygon([point_x, point_y], pen.polygon)) {
               new_pond.push([point_x, point_y]);
             }
           }
@@ -1290,7 +1295,7 @@ Game.prototype.prepPondsAndTerraces = function() {
               t[0] = pen.cx + (t[0] - pen.cx) * 0.9;
               t[1] = (pen.cy - 50) + (t[1] - (pen.cy - 50)) * 0.9;
             }, function() {
-              return !pointInsidePolygon([t[0], t[1]], pen.polygon) 
+              return !pen.polygon || !pointInsidePolygon([t[0], t[1]], pen.polygon)
                 || (pen.pond != null && pointInsidePolygon([t[0], t[1]], pen.pond));
             }, 20
           );
@@ -1315,8 +1320,8 @@ Game.prototype.prepPondsAndTerraces = function() {
         // drop the bottoms if they can be dropped without crossing the pond or pen boundaries
         for (let j = 0; j < new_terrace.length; j++) {
           let t = new_terrace[j];
-          if (pointInsidePolygon([t[0], t[1] - 10], new_terrace)
-            && pointInsidePolygon([t[0], t[1] + 60], pen.polygon) 
+          if (pen.polygon && pointInsidePolygon([t[0], t[1] - 10], new_terrace)
+            && pointInsidePolygon([t[0], t[1] + 60], pen.polygon)
             && (pen.pond == null || !pointInsidePolygon([t[0], t[1] + 60], pen.pond) )) {
             t[1] += 30;
           }
@@ -1357,8 +1362,11 @@ Game.prototype.prepPondsAndTerraces = function() {
 // populate zoo
 Game.prototype.addAnimalsAndDecorations = function() {
 
-  this.animals_obtained = 0;
-  this.animals_available = 0;
+  // Only reset counters if not loaded from save
+  if (!this.loaded_from_save) {
+    this.animals_obtained = 0;
+    this.animals_available = 0;
+  }
 
   let sheet = PIXI.Loader.shared.resources["Art/Decorations/trees.json"].spritesheet;
 
@@ -1489,7 +1497,10 @@ Game.prototype.addAnimalsAndDecorations = function() {
     }
 
     if (pen.animal != null) {
-      this.animals_available += 1;
+      // Only count animals_available when generating new map (not loading from save)
+      if (!this.loaded_from_save) {
+        this.animals_available += 1;
+      }
       pen.animal_objects = [];
       let animal_name = pen.animal;
 

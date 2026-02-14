@@ -12,6 +12,7 @@
 const { app, ipcMain, BrowserWindow } = require('electron')
 const path = require('path')
 const settings = require('electron-settings');
+const fs = require('fs');
 
 
 let game_fullscreen = false;
@@ -45,6 +46,10 @@ function createWindow () {
     // and load the index.html of the app.
     mainWindow.loadFile('index.html')
 
+    // Get path for map.json storage
+    const userDataPath = app.getPath('userData');
+    const mapFilePath = path.join(userDataPath, 'map.json');
+
     ipcMain.on('synchronous-message', (event, arg) => {
       if (arg[0] == "fullscreen" && arg[1] == true) {
         mainWindow.setFullScreenable(true);
@@ -66,6 +71,66 @@ function createWindow () {
         event.returnValue = 'game is windowed.'
       } else if (arg[0] == "getfullscreen") {
         event.returnValue = mainWindow.isFullScreen();
+      } else if (arg[0] == "get_persist_map") {
+        // Get persistMap setting (default: false for backward compatibility)
+        settings.get('persistMap').then(value => {
+          event.returnValue = value === true;
+        });
+      } else if (arg[0] == "get_persist_pen_states") {
+        // Get persistPenStates setting (default: true to persist unlocked states)
+        settings.get('persistPenStates').then(value => {
+          event.returnValue = value !== false; // Default to true if not set
+        });
+      } else if (arg[0] == "save_zoo") {
+        // Check if persistMap is enabled
+        settings.get('persistMap').then(enabled => {
+          if (enabled === true) {
+            // Save zoo state to map.json
+            try {
+              fs.writeFileSync(mapFilePath, JSON.stringify(arg[1], null, 2));
+              event.returnValue = 'zoo saved';
+            } catch (e) {
+              console.error('Failed to save map.json:', e);
+              event.returnValue = 'save failed';
+            }
+          } else {
+            event.returnValue = 'map persistence disabled';
+          }
+        });
+      } else if (arg[0] == "load_zoo") {
+        // Load zoo state from map.json
+        settings.get('persistMap').then(enabled => {
+          if (enabled === true && fs.existsSync(mapFilePath)) {
+            try {
+              const data = fs.readFileSync(mapFilePath, 'utf8');
+              event.returnValue = JSON.parse(data);
+            } catch (e) {
+              console.error('Failed to load map.json:', e);
+              event.returnValue = null;
+            }
+          } else {
+            event.returnValue = null;
+          }
+        });
+      } else if (arg[0] == "has_zoo_save") {
+        // Check if map.json exists and persistMap is enabled
+        settings.get('persistMap').then(enabled => {
+          event.returnValue = enabled === true && fs.existsSync(mapFilePath);
+        });
+      } else if (arg[0] == "delete_zoo_save") {
+        // Delete map.json file (when zoo size changes or user wants fresh map)
+        try {
+          if (fs.existsSync(mapFilePath)) {
+            fs.unlinkSync(mapFilePath);
+            console.log('Deleted map.json');
+            event.returnValue = 'deleted';
+          } else {
+            event.returnValue = 'not_found';
+          }
+        } catch (e) {
+          console.error('Failed to delete map.json:', e);
+          event.returnValue = 'error';
+        }
       }
     });
   });
