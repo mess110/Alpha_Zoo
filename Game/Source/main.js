@@ -18,8 +18,30 @@ const fs = require('fs');
 let game_fullscreen = false;
 
 
+async function initializeSettings() {
+  // Initialize settings with defaults if they don't exist
+  // This makes settings discoverable and easy to modify
+
+  const persistMap = await settings.get('persistMap');
+  if (persistMap === undefined) {
+    await settings.set('persistMap', false);
+    console.log('Initialized persistMap setting to false');
+  }
+
+  const persistPenStates = await settings.get('persistPenStates');
+  if (persistPenStates === undefined) {
+    await settings.set('persistPenStates', true);
+    console.log('Initialized persistPenStates setting to true');
+  }
+}
+
 function createWindow () {
   // Create the browser window.
+
+  // Initialize settings with defaults on first run
+  initializeSettings().then(() => {
+    console.log('Settings initialized');
+  });
 
   settings.get('fullscreen.data').then(value => {
 
