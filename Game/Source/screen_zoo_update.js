@@ -627,7 +627,7 @@ Game.prototype.fadeTitle = function() {
 
 Game.prototype.updateAnimalCount = function() {
   let old_animal_count_text = this.animal_count_text.text;
-  this.animal_count_text.text = this.animals_obtained + " / " + this.animals_available;
+  this.animal_count_text.text = this.getAnimalsObtained() + " / " + this.getAnimalsAvailable();
   if (old_animal_count_text != this.animal_count_text.text) flicker(this.animal_count_text, 300, 0x000000, 0xFFFFFF);
 
   let old_dollar_bucks_text = this.dollar_bucks_text.text;

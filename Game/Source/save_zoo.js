@@ -8,6 +8,27 @@
 // Written by Matthew Carlin
 //
 
+// Dynamic getters for animal counts (calculated from pen states)
+Game.prototype.getAnimalsAvailable = function() {
+  let count = 0;
+  for (let pen of this.zoo_pens) {
+    if (pen.animal != null) {
+      count += 1;
+    }
+  }
+  return count;
+}
+
+Game.prototype.getAnimalsObtained = function() {
+  let count = 0;
+  for (let pen of this.zoo_pens) {
+    if (pen.animal != null && pen.state === "ungrey") {
+      count += 1;
+    }
+  }
+  return count;
+}
+
 // Extract zoo state for saving
 Game.prototype.serializeZooState = function() {
   let zoo_data = {
@@ -24,9 +45,7 @@ Game.prototype.serializeZooState = function() {
       squares: {}
     },
     progression: {
-      dollar_bucks: this.dollar_bucks || 0,
-      animals_obtained: this.animals_obtained || 0,
-      animals_available: this.animals_available || 0
+      dollar_bucks: this.dollar_bucks || 0
     }
   };
 
@@ -100,8 +119,6 @@ Game.prototype.deserializeZooState = function(zoo_data) {
   this.east_station = zoo_data.zoo.east_station;
   this.west_station = zoo_data.zoo.west_station;
   this.dollar_bucks = zoo_data.progression.dollar_bucks;
-  this.animals_obtained = zoo_data.progression.animals_obtained;
-  this.animals_available = zoo_data.progression.animals_available;
 
   // Initialize arrays
   this.zoo_pens = [];

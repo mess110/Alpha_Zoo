@@ -1311,12 +1311,6 @@ Game.prototype.prepPondsAndTerraces = function() {
 // populate zoo
 Game.prototype.addAnimalsAndDecorations = function() {
 
-  // Only reset counters if not loaded from save
-  if (!this.loaded_from_save) {
-    this.animals_obtained = 0;
-    this.animals_available = 0;
-  }
-
   let sheet = PIXI.Loader.shared.resources["Art/Decorations/trees.json"].spritesheet;
 
   for (let i = 0; i < this.zoo_pens.length; i++) {
@@ -1446,10 +1440,6 @@ Game.prototype.addAnimalsAndDecorations = function() {
     }
 
     if (pen.animal != null) {
-      // Only count animals_available when generating new map (not loading from save)
-      if (!this.loaded_from_save) {
-        this.animals_available += 1;
-      }
       pen.animal_objects = [];
       let animal_name = pen.animal;
 

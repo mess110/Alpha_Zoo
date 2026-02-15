@@ -53,12 +53,11 @@ Game.prototype.addType = function(letter) {
       }
       
       soundEffect("build");
-      if (pen_to_fix.animal_objects != null) {
-        self.animals_obtained += 1;
+      if (pen_to_fix.animal != null) {
         self.dollar_bucks += 2;
-        self.updateAnimalCount();
-        self.saveZooState();
       }
+      self.updateAnimalCount();
+      self.saveZooState();
 
       for (let i = 0; i < self.pen_to_fix.polygon.length; i++) {
         let x = pen_to_fix.polygon[i][0];
