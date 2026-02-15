@@ -24,7 +24,8 @@ Game.prototype.initializeCharacterSelect = function() {
   console.log("initializing " + screen.name);
 
   this.character_select_typing_allowed = true;
-  this.character_select_typing_text = "";
+  this.character_select_last_prefix = "";
+  this.character_select_last_edit = null;
   this.selected_character_index = -1;
 
   // Background - grass green
@@ -115,6 +116,7 @@ Game.prototype.initializeCharacterSelect = function() {
     typing_text.tint = 0x000000;
     typing_text.anchor.set(0, 0);
     typing_text.position.set(-text_width / 2, 100);
+    typing_text.target = char_data.name;
     char_container.addChild(typing_text);
     this.character_name_typing_texts.push(typing_text);
 
@@ -127,63 +129,39 @@ Game.prototype.initializeCharacterSelect = function() {
     });
   });
 
+  this.character_select_last_edit = this.character_name_typing_texts[0];
   this.character_select_initialized = true;
 }
 
 
-Game.prototype.updateCharacterSelect = function() {
+Game.prototype.updateCharacterSelect = function(diff) {
   // Don't update if screen not initialized yet
   if (!this.character_select_initialized) return;
 
-  // Check for partial matches and update typing text overlay
-  if (this.character_select_typing_text.length > 0) {
-    let found_match = false;
-    let typed_no_spaces = this.character_select_typing_text.replace(/ /g, "");
+  let fractional = diff / (1000/30.0);
 
-    for (let i = 0; i < playable_characters.length; i++) {
-      let char_data = playable_characters[i];
-      let name_no_spaces = char_data.name.replace(/ /g, "");
-
-      if (name_no_spaces.startsWith(typed_no_spaces)) {
-        // This character matches - fill in the typing text
-        // Show the typed portion matching the actual name format
-        let display_text = "";
-        let typed_index = 0;
-        for (let j = 0; j < char_data.name.length && typed_index < typed_no_spaces.length; j++) {
-          if (char_data.name[j] === " ") {
-            display_text += " ";
-          } else {
-            display_text += char_data.name[j];
-            typed_index++;
-          }
-        }
-        this.character_name_typing_texts[i].text = display_text;
-
-        // Highlight this character
-        this.character_previews[i].circle.alpha = 1.0;
-        this.character_previews[i].circle.tint = 0xFFFF88;
-        found_match = true;
-        this.selected_character_index = i;
-      } else {
-        // Dim this character
-        this.character_name_typing_texts[i].text = "";
-        this.character_previews[i].circle.alpha = 0.3;
-        this.character_previews[i].circle.tint = 0xCCCCCC;
-      }
-    }
-
-    if (!found_match) {
-      this.selected_character_index = -1;
-    }
-  } else {
-    // Reset all to default state
-    for (let i = 0; i < this.character_previews.length; i++) {
-      this.character_name_typing_texts[i].text = "";
+  // Update character highlighting based on typing text
+  let found_match = false;
+  for (let i = 0; i < this.character_previews.length; i++) {
+    if (this.character_name_typing_texts[i].text.length > 0) {
+      // Highlight this character
+      this.character_previews[i].circle.alpha = 1.0;
+      this.character_previews[i].circle.tint = 0xFFFF88;
+      found_match = true;
+      this.selected_character_index = i;
+    } else {
+      // Dim this character
       this.character_previews[i].circle.alpha = 0.5;
       this.character_previews[i].circle.tint = 0xFFFFFF;
     }
+  }
+
+  if (!found_match) {
     this.selected_character_index = -1;
   }
+
+  // Update falling letters physics
+  this.freeeeeFreeeeeFalling(fractional);
 }
 
 
@@ -201,11 +179,6 @@ Game.prototype.characterSelectKeyDown = function(ev) {
     }
   }
 
-  // Handle space (optional)
-  if (key === " ") {
-    this.addCharacterSelectType(" ");
-    return;
-  }
 
   // Handle backspace
   if (key === "Backspace" || key === "Delete") {
@@ -218,19 +191,55 @@ Game.prototype.characterSelectKeyDown = function(ev) {
 Game.prototype.addCharacterSelectType = function(letter) {
   var self = this;
 
+  let new_text = this.character_select_last_prefix + letter;
+  let one_text_is_filled = false;
+
   if (use_voice && letter !== " ") {
     soundEffect(letter.toLowerCase());
   }
 
-  this.character_select_typing_text += letter;
+  // Check all typing texts to see if any match the new prefix
+  for (let i = 0; i < this.character_name_typing_texts.length; i++) {
+    let typing_text = this.character_name_typing_texts[i];
+    if (typing_text.target.indexOf(new_text) == 0) {
+      one_text_is_filled = true;
+      if (new_text.length <= typing_text.target.length) {
+        typing_text.text = new_text;
+        this.character_select_last_prefix = new_text;
+        this.character_select_last_edit = typing_text;
+        // Auto-add space if the target has a space at this position
+        if (typing_text.text.length < typing_text.target.length &&
+          typing_text.target[new_text.length] == " ") {
+          typing_text.text += " ";
+          this.character_select_last_prefix += " ";
+        }
+      }
+    } else {
+      typing_text.text = "";
+    }
+  }
 
-  // Check for exact match (ignoring spaces)
-  let typed_no_spaces = this.character_select_typing_text.replace(/ /g, "");
-  for (let i = 0; i < playable_characters.length; i++) {
-    let char_data = playable_characters[i];
-    let name_no_spaces = char_data.name.replace(/ /g, "");
-    if (typed_no_spaces === name_no_spaces) {
-      this.selectCharacter(char_data.key, i);
+  // If no text matches, continue filling the last edited text (forgiving typing)
+  if (!one_text_is_filled) {
+    if (new_text.length <= this.character_select_last_edit.target.length) {
+      this.character_select_last_edit.text = new_text;
+      this.character_select_last_prefix = new_text;
+      // Auto-add space if the target has a space at this position
+      if (this.character_select_last_edit.text.length < this.character_select_last_edit.target.length &&
+        this.character_select_last_edit.target[new_text.length] == " ") {
+        this.character_select_last_edit.text += " ";
+        this.character_select_last_prefix += " ";
+      }
+    } else {
+      this.character_select_last_edit.text = this.character_select_last_prefix;
+    }
+  }
+
+  // Check for exact match
+  for (let i = 0; i < this.character_name_typing_texts.length; i++) {
+    let typing_text = this.character_name_typing_texts[i];
+    if (typing_text.text == typing_text.target) {
+      this.selectCharacter(playable_characters[i].key, i);
       return;
     }
   }
@@ -238,9 +247,42 @@ Game.prototype.addCharacterSelectType = function(letter) {
 
 
 Game.prototype.deleteCharacterSelectType = function() {
-  if (this.character_select_typing_text.length > 0) {
-    // Remove the character from typing text
-    this.character_select_typing_text = this.character_select_typing_text.slice(0, -1);
+  var self = this;
+  var screen = this.screens["character_select"];
+
+  let deleting = false;
+  for (let i = 0; i < this.character_name_typing_texts.length; i++) {
+    let typing_text = this.character_name_typing_texts[i];
+
+    if (typing_text.text.length > 0) {
+      deleting = true;
+
+      // Skip spaces when deleting
+      if (typing_text.text[typing_text.text.length - 1] === " ") {
+        typing_text.text = typing_text.text.slice(0,-1);
+        this.character_select_last_prefix = this.character_select_last_prefix.slice(0,-1);
+      }
+
+      // Create falling letter animation
+      let l = typing_text.text.slice(-1, typing_text.text.length);
+      let t = new PIXI.Text(l, {fontFamily: default_font, fontSize: 36, fill: 0x000000, letterSpacing: 2, align: "left"});
+      t.anchor.set(0, 0.5);
+      t.position.set(
+        typing_text.parent.position.x + typing_text.position.x + 23 * (typing_text.text.length - 1),
+        typing_text.parent.position.y + typing_text.position.y
+      );
+      t.vx = -20 + 40 * Math.random();
+      t.vy = -5 + -20 * Math.random();
+      t.floor = 1200;
+      screen.addChild(t);
+      this.freefalling.push(t);
+
+      typing_text.text = typing_text.text.slice(0, -1);
+    }
+  }
+  if (deleting) {
+    this.character_select_last_prefix = this.character_select_last_prefix.slice(0, -1);
+    soundEffect("swipe");
   }
 }
 
@@ -288,6 +330,7 @@ Game.prototype.clearCharacterSelect = function() {
   this.character_name_grey_texts = [];
   this.character_name_typing_texts = [];
   this.character_select_initialized = false;
-  this.character_select_typing_text = "";
+  this.character_select_last_prefix = "";
+  this.character_select_last_edit = null;
   this.character_select_typing_allowed = true;
 }
