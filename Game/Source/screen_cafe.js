@@ -342,15 +342,18 @@ Game.prototype.makeFood = function(food, table_number, typing_choice = null) {
     flicker(typing_choice, 300, 0x000000, 0xFFFFFF);
   }
 
+  // Add extra delay for player (table 0) so they don't miss the eating animation
+  let eating_delay = (table_number == 0) ? 1200 : 0;
+
   delay(function() {
     if (table_number == 0) {
       if (!isLiquid(food_name)) soundEffect("chomp_" + Math.ceil(Math.random() * 2));
-      if (isLiquid(food_name)) soundEffect("slurp"); 
+      if (isLiquid(food_name)) soundEffect("slurp");
       self.cafe_diners[table_number].shake = self.markTime();
     }
     food_sprite.gotoAndStop(1);
-    
-  }, 500 * (table_number/2 + 1));
+
+  }, eating_delay + 500 * (table_number/2 + 1));
 
   delay(function() {
     if (table_number == 0) {
@@ -358,8 +361,8 @@ Game.prototype.makeFood = function(food, table_number, typing_choice = null) {
       self.cafe_diners[table_number].shake = self.markTime();
     }
     food_sprite.gotoAndStop(2);
-    
-  }, 1000 * (table_number/2 + 1));
+
+  }, eating_delay + 1000 * (table_number/2 + 1));
 
   delay(function() {
     food_sprite.visible = false;
@@ -369,7 +372,7 @@ Game.prototype.makeFood = function(food, table_number, typing_choice = null) {
       self.cafe_typing_allowed = true;
       self.cafe_diners[table_number].shake = self.markTime();
     }
-  }, 1500 * (table_number/2 + 1));
+  }, eating_delay + 1500 * (table_number/2 + 1));
 }
 
 
