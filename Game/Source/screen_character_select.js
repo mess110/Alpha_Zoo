@@ -13,7 +13,7 @@ let playable_characters = [
   { name: "ORANGE CAT", key: "orange_cat" },
   { name: "POLAR BEAR", key: "polar_bear" },
   { name: "RABBIT BLUESHIRT", key: "rabbit_blueshirt" },
-  { name: "RABBIT GREENSHIRT", key: "rabbit_greenshirt" },
+  { name: "RABBIT REDSHIRT", key: "rabbit_redshirt" },
   { name: "YELLOW CAT", key: "yellow_cat" }
 ];
 
