@@ -382,7 +382,9 @@ Game.prototype.updateCafe = function(diff) {
 
   let fractional = diff / (1000/30.0);
 
-  this.cafe_player.updateBalloons();
+  if (this.cafe_player) {
+    this.cafe_player.updateBalloons();
+  }
 
   if (this.cafe_diners != null) {
     for (let i = 1; i < this.cafe_diners.length; i++) {
