@@ -712,6 +712,50 @@ Game.prototype.playerAndBoundaries = function() {
     this.dollar_bucks = 6;
   }
 
+  // Restore saved purchases if persistPurchases is enabled
+  let persist_purchases = window.getPersistPurchases();
+  if (persist_purchases) {
+    // Restore balloons
+    if (this.saved_balloons && this.saved_balloons.length > 0) {
+      for (let balloon_color of this.saved_balloons) {
+        this.player.addBalloon(balloon_color);
+      }
+      this.saved_balloons = [];
+    }
+
+    // Restore shirt
+    if (this.saved_shirt_color) {
+      this.player.addShirt(this.saved_shirt_color);
+      this.saved_shirt_color = null;
+    }
+
+    // Restore hat
+    if (this.saved_hat_type) {
+      this.player.addHat(this.saved_hat_type);
+      this.saved_hat_type = null;
+    }
+
+    // Restore glasses
+    if (this.saved_glasses_type) {
+      this.player.addGlasses(this.saved_glasses_type);
+      this.saved_glasses_type = null;
+    }
+
+    // Restore scooter
+    if (this.saved_scooter_type) {
+      this.player.addScooter(this.saved_scooter_type, "zoo");
+      this.saved_scooter_type = null;
+    }
+
+    // Restore stuffies
+    if (this.saved_stuffies && this.saved_stuffies.length > 0) {
+      for (let stuffie_name of this.saved_stuffies) {
+        this.player.addStuffie(stuffie_name, this.decorations);
+      }
+      this.saved_stuffies = [];
+    }
+  }
+
   this.npcs = [];
 
   let count = 0;

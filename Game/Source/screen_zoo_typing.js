@@ -168,19 +168,27 @@ Game.prototype.addDisplayType = function(letter) {
       this.activateMarimba();
     } else if (text_box.text == "LET GO") {
       soundEffect("success");
-    
+
       this.display_typing_allowed = false;
 
       delay(function() {
         self.action_typing_text[self.action_default_slot].text = "";
         self.display_typing_allowed = true;
-        self.changeDisplayText("FERRIS_WHEEL_OPTIONS", null);
+        // Only update display text if on ferris wheel
+        if (self.thing_to_display == "FERRIS_WHEEL_OPTIONS") {
+          self.changeDisplayText("FERRIS_WHEEL_OPTIONS", null);
+        }
       }, 300);
 
       flicker(text_box, 300, 0x000000, 0xFFFFFF);
 
-
-      this.ferris_wheel.releaseBalloon();
+      // Release balloon from ferris wheel or player depending on context
+      if (this.thing_to_display == "FERRIS_WHEEL_OPTIONS") {
+        this.ferris_wheel.releaseBalloon();
+      } else {
+        this.player.releaseBalloon();
+        this.saveZooState();
+      }
     } else if (text_box.text == "THROW") {
       this.throwHotDog();
     } else if (text_box.text == "COLOR") {
@@ -368,7 +376,11 @@ Game.prototype.changeDisplayText = function(thing_to_display, pen_to_display, wo
 
   if (word_list.length == 0) {
     if (this.thing_to_display == "MAP") {
-      word_list = ["MAP"];
+      if (this.player.balloons.length > 0) {
+        word_list = ["MAP", "LET GO"];
+      } else {
+        word_list = ["MAP"];
+      }
     } else if (this.thing_to_display == "FERRIS_WHEEL") {
       word_list = ["COLOR", "RIDE"];
     } else if (this.thing_to_display == "TRAIN") {

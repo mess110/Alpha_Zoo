@@ -25,6 +25,10 @@ window.getPersistPenStates = function() {
   return ipcRenderer.sendSync('synchronous-message', ["get_persist_pen_states"]);
 }
 
+window.getPersistPurchases = function() {
+  return ipcRenderer.sendSync('synchronous-message', ["get_persist_purchases"]);
+}
+
 window.saveZoo = function(zoo_data) {
   return ipcRenderer.sendSync('synchronous-message', ["save_zoo", zoo_data]);
 }

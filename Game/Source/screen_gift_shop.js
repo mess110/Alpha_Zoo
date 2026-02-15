@@ -290,6 +290,24 @@ Game.prototype.initializeGiftShopObjects = function() {
   this.gift_shop_object_layer.addChild(this.gift_shop_player);
   this.gift_shop_objects.push(this.gift_shop_player);
 
+  // Clear any old balloons from gift shop player (in case of re-entry)
+  if (this.gift_shop_player.balloons && this.gift_shop_player.balloons.length > 0) {
+    while (this.gift_shop_player.balloons.length > 0) {
+      let oldBalloon = this.gift_shop_player.balloons.pop();
+      if (oldBalloon.parent) {
+        oldBalloon.parent.removeChild(oldBalloon);
+      }
+      oldBalloon.destroy();
+    }
+  }
+
+  // Sync balloons from zoo player - this is the single source of truth
+  if (this.player && this.player.balloons) {
+    for (let i = 0; i < this.player.balloons.length; i++) {
+      this.gift_shop_player.addBalloon(this.player.balloons[i].color);
+    }
+  }
+
   for (let i = 0; i < gift_shop_table_locations.length; i++) {
     let p = gift_shop_table_locations[i];
     let gift_shop_table = new PIXI.Sprite(PIXI.Texture.from("Art/Gift_Shop/gift_shop_table.png"));
@@ -571,7 +589,6 @@ Game.prototype.giftShopAddType = function(letter) {
       self.dollar_bucks -= slot.price;
       self.gift_shop_dollar_bucks_text.text = self.dollar_bucks;
       flicker(self.gift_shop_dollar_bucks_text, 300, 0x000000, 0xFFFFFF);
-      self.saveZooState();
 
 
       if (slot.type == "stuffie") {
@@ -650,6 +667,7 @@ Game.prototype.giftShopAddType = function(letter) {
         }
         slot.price = 0;
       } else if (slot.type == "balloon") {
+        // Add to both gift shop player (for immediate visibility) and zoo player (source of truth)
         self.gift_shop_player.addBalloon(slot.color);
         if (self.player != null) self.player.addBalloon(slot.color);
         if (self.cafe_player != null) self.cafe_player.addBalloon(slot.color);
@@ -685,6 +703,9 @@ Game.prototype.giftShopAddType = function(letter) {
       self.updatePriceTags();
 
       self.makeSmoke(screen, slot.x, slot.y - 50, 1.8, 1.8);
+
+      // Save zoo state after all purchases are processed
+      self.saveZooState();
 
       self.giftShopHideTypingText();
     }, 200);

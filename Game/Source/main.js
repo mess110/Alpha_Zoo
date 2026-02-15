@@ -33,6 +33,12 @@ async function initializeSettings() {
     await settings.set('persistPenStates', true);
     console.log('Initialized persistPenStates setting to true');
   }
+
+  const persistPurchases = await settings.get('persistPurchases');
+  if (persistPurchases === undefined) {
+    await settings.set('persistPurchases', false);
+    console.log('Initialized persistPurchases setting to false');
+  }
 }
 
 function createWindow () {
@@ -102,6 +108,11 @@ function createWindow () {
         // Get persistPenStates setting (default: true to persist unlocked states)
         settings.get('persistPenStates').then(value => {
           event.returnValue = value !== false; // Default to true if not set
+        });
+      } else if (arg[0] == "get_persist_purchases") {
+        // Get persistPurchases setting (default: false)
+        settings.get('persistPurchases').then(value => {
+          event.returnValue = value === true;
         });
       } else if (arg[0] == "save_zoo") {
         // Check if persistMap is enabled

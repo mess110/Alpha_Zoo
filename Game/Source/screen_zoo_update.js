@@ -802,6 +802,36 @@ Game.prototype.updatePlayer = function() {
           this.entered_from_map = this.map_visible;
           // this.initializeScreen("cafe");
 
+          // Sync cafe player purchases with zoo player before entering
+          if (this.cafe_player && this.player) {
+            // Sync balloons
+            if (this.cafe_player.balloons) {
+              while (this.cafe_player.balloons.length > 0) {
+                let oldBalloon = this.cafe_player.balloons.pop();
+                if (oldBalloon.parent) {
+                  oldBalloon.parent.removeChild(oldBalloon);
+                }
+                oldBalloon.destroy();
+              }
+              if (this.player.balloons) {
+                for (let i = 0; i < this.player.balloons.length; i++) {
+                  this.cafe_player.addBalloon(this.player.balloons[i].color);
+                }
+              }
+            }
+
+            // Sync shirt, hat, glasses (scooter not needed in cafe)
+            if (this.player.shirt_color) {
+              this.cafe_player.addShirt(this.player.shirt_color);
+            }
+            if (this.player.hat_type) {
+              this.cafe_player.addHat(this.player.hat_type);
+            }
+            if (this.player.glasses_type) {
+              this.cafe_player.addGlasses(this.player.glasses_type);
+            }
+          }
+
           this.fadeScreens("zoo", "cafe", true);
         }
       }
@@ -817,6 +847,56 @@ Game.prototype.updatePlayer = function() {
           this.gift_shop_mode = "active";
           this.gift_shop_dollar_bucks_text.text = this.dollar_bucks;
           this.updatePriceTags();
+
+          // Sync gift shop player purchases with zoo player before entering
+          if (this.gift_shop_player && this.player) {
+            // Sync balloons
+            if (this.gift_shop_player.balloons) {
+              while (this.gift_shop_player.balloons.length > 0) {
+                let oldBalloon = this.gift_shop_player.balloons.pop();
+                if (oldBalloon.parent) {
+                  oldBalloon.parent.removeChild(oldBalloon);
+                }
+                oldBalloon.destroy();
+              }
+              if (this.player.balloons) {
+                for (let i = 0; i < this.player.balloons.length; i++) {
+                  this.gift_shop_player.addBalloon(this.player.balloons[i].color);
+                }
+              }
+            }
+
+            // Sync shirt, hat, glasses, scooter
+            if (this.player.shirt_color) {
+              this.gift_shop_player.addShirt(this.player.shirt_color);
+            }
+            if (this.player.hat_type) {
+              this.gift_shop_player.addHat(this.player.hat_type);
+            }
+            if (this.player.glasses_type) {
+              this.gift_shop_player.addGlasses(this.player.glasses_type);
+            }
+            if (this.player.scooter_type) {
+              this.gift_shop_player.addScooter(this.player.scooter_type, "gift_shop");
+            }
+
+            // Sync stuffies
+            if (this.player.stuffies && this.player.stuffies.length > 0) {
+              // Clear old stuffies
+              while (this.gift_shop_player.stuffies.length > 0) {
+                let oldStuffie = this.gift_shop_player.stuffies.pop();
+                if (oldStuffie.parent) {
+                  oldStuffie.parent.removeChild(oldStuffie);
+                }
+                oldStuffie.destroy();
+              }
+              // Add current stuffies
+              for (let stuffie of this.player.stuffies) {
+                this.gift_shop_player.addStuffie(stuffie.character_name, this.gift_shop_objects);
+              }
+            }
+          }
+
           this.fadeScreens("zoo", "gift_shop", true);
         }
       }

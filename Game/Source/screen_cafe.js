@@ -101,7 +101,27 @@ Game.prototype.initializeCafe = function() {
     screen.addChild(diner);
     this.shakers.push(diner);
     this.cafe_diners.push(diner);
-    if (i == 0) this.cafe_player = diner;
+    if (i == 0) {
+      this.cafe_player = diner;
+
+      // Clear any old balloons from cafe player (in case of re-entry)
+      if (this.cafe_player.balloons && this.cafe_player.balloons.length > 0) {
+        while (this.cafe_player.balloons.length > 0) {
+          let oldBalloon = this.cafe_player.balloons.pop();
+          if (oldBalloon.parent) {
+            oldBalloon.parent.removeChild(oldBalloon);
+          }
+          oldBalloon.destroy();
+        }
+      }
+
+      // Sync balloons from zoo player - this is the single source of truth
+      if (this.player && this.player.balloons) {
+        for (let i = 0; i < this.player.balloons.length; i++) {
+          this.cafe_player.addBalloon(this.player.balloons[i].color);
+        }
+      }
+    }
   }
 
   // make four tables.

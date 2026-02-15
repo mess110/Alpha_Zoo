@@ -45,9 +45,39 @@ Game.prototype.serializeZooState = function() {
       squares: {}
     },
     progression: {
-      dollar_bucks: this.dollar_bucks || 0
+      dollar_bucks: this.dollar_bucks || 0,
+      balloons: [],
+      shirt_color: null,
+      hat_type: null,
+      glasses_type: null,
+      scooter_type: null,
+      stuffies: []
     }
   };
+
+  // Save purchases if persistPurchases is enabled
+  let persist_purchases = window.getPersistPurchases();
+  if (persist_purchases && this.player) {
+    // Save balloons
+    if (this.player.balloons) {
+      for (let balloon of this.player.balloons) {
+        zoo_data.progression.balloons.push(balloon.color);
+      }
+    }
+
+    // Save shirt, hat, glasses, scooter
+    zoo_data.progression.shirt_color = this.player.shirt_color || null;
+    zoo_data.progression.hat_type = this.player.hat_type || null;
+    zoo_data.progression.glasses_type = this.player.glasses_type || null;
+    zoo_data.progression.scooter_type = this.player.scooter_type || null;
+
+    // Save stuffies
+    if (this.player.stuffies) {
+      for (let stuffie of this.player.stuffies) {
+        zoo_data.progression.stuffies.push(stuffie.character_name);
+      }
+    }
+  }
 
   // Serialize pens
   for (let pen of this.zoo_pens) {
@@ -119,6 +149,14 @@ Game.prototype.deserializeZooState = function(zoo_data) {
   this.east_station = zoo_data.zoo.east_station;
   this.west_station = zoo_data.zoo.west_station;
   this.dollar_bucks = zoo_data.progression.dollar_bucks;
+
+  // Store purchase data for later restoration (after player is created)
+  this.saved_balloons = zoo_data.progression.balloons || [];
+  this.saved_shirt_color = zoo_data.progression.shirt_color || null;
+  this.saved_hat_type = zoo_data.progression.hat_type || null;
+  this.saved_glasses_type = zoo_data.progression.glasses_type || null;
+  this.saved_scooter_type = zoo_data.progression.scooter_type || null;
+  this.saved_stuffies = zoo_data.progression.stuffies || [];
 
   // Initialize arrays
   this.zoo_pens = [];
