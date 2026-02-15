@@ -52,6 +52,12 @@ Game.prototype.initializeCafe = function() {
   this.cafe_last_prefix = "";
   this.cafe_last_edit = null;
 
+  this.cafe_math_popup_visible = false;
+  this.cafe_math_answer = "";
+  this.cafe_math_correct_answer = 0;
+  this.cafe_math_pending_food = null;
+  this.cafe_math_answer_is_wrong = false;
+
   this.cafe_background = new PIXI.Sprite(PIXI.Texture.from("Art/Cafe/cafe_background.png"));
   this.cafe_background.anchor.set(0, 0);
   this.cafe_background.scale.set(1, 1);
@@ -167,6 +173,55 @@ Game.prototype.initializeCafe = function() {
   }
 
   this.cafe_last_edit = this.cafe_typing_texts[0];
+
+  // Math popup UI
+  this.cafe_math_popup = new PIXI.Container();
+  this.cafe_math_popup.visible = false;
+  screen.addChild(this.cafe_math_popup);
+
+  this.cafe_math_background = new PIXI.Sprite(PIXI.Texture.from("Art/wood.png"));
+  this.cafe_math_background.anchor.set(0.5, 0.5);
+  this.cafe_math_background.position.set(this.width / 2, this.height / 2);
+  this.cafe_math_background.scale.set(3, 2.5);
+  this.cafe_math_popup.addChild(this.cafe_math_background);
+
+  this.cafe_math_problem_text = new PIXI.Text("", {fontFamily: default_font, fontSize: 100, fill: 0x000000, letterSpacing: 5, align: "left"});
+  this.cafe_math_problem_text.anchor.set(0, 0.5);
+  this.cafe_math_problem_text.position.set(this.width / 2 - 200, this.height / 2);
+  this.cafe_math_popup.addChild(this.cafe_math_problem_text);
+
+  this.cafe_math_answer_text = new PIXI.Text("", {fontFamily: default_font, fontSize: 100, fill: 0x000000, letterSpacing: 5, align: "left"});
+  this.cafe_math_answer_text.anchor.set(0, 0.5);
+  this.cafe_math_answer_text.position.set(this.width / 2 + 60, this.height / 2);
+  this.cafe_math_popup.addChild(this.cafe_math_answer_text);
+
+  this.cafe_math_escape_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/close_button.png"));
+  this.cafe_math_escape_glyph.anchor.set(0,1);
+  this.cafe_math_escape_glyph.position.set(this.width / 2 - 350, this.height / 2 + 180);
+  this.cafe_math_escape_glyph.scale.set(0.6, 0.6)
+  this.cafe_math_escape_glyph.tint = 0x000000;
+  this.cafe_math_escape_glyph.alpha = 0.6;
+  this.cafe_math_popup.addChild(this.cafe_math_escape_glyph);
+
+  this.cafe_math_escape_text = new PIXI.Text("Escape", {fontFamily: default_font, fontSize: 30, fill: 0x000000, letterSpacing: 6, align: "left"});
+  this.cafe_math_escape_text.anchor.set(0,1);
+  this.cafe_math_escape_text.position.set(this.width / 2 - 270, this.height / 2 + 168);
+  this.cafe_math_escape_text.alpha = 0.6;
+  this.cafe_math_popup.addChild(this.cafe_math_escape_text);
+
+  this.cafe_math_enter_glyph = new PIXI.Sprite(PIXI.Texture.from("Art/enter_button.png"));
+  this.cafe_math_enter_glyph.anchor.set(0,1);
+  this.cafe_math_enter_glyph.position.set(this.width / 2 + 150, this.height / 2 + 180);
+  this.cafe_math_enter_glyph.scale.set(0.6, 0.6)
+  this.cafe_math_enter_glyph.tint = 0x000000;
+  this.cafe_math_enter_glyph.alpha = 0.6;
+  this.cafe_math_popup.addChild(this.cafe_math_enter_glyph);
+
+  this.cafe_math_enter_text = new PIXI.Text("Enter", {fontFamily: default_font, fontSize: 30, fill: 0x000000, letterSpacing: 6, align: "left"});
+  this.cafe_math_enter_text.anchor.set(0,1);
+  this.cafe_math_enter_text.position.set(this.width / 2 + 230, this.height / 2 + 168);
+  this.cafe_math_enter_text.alpha = 0.6;
+  this.cafe_math_popup.addChild(this.cafe_math_enter_text);
 }
 
 
@@ -175,6 +230,32 @@ Game.prototype.cafeKeyDown = function(ev) {
   var screen = this.screens["cafe"];
 
   let key = ev.key;
+
+  // Handle math popup input
+  if (this.cafe_math_popup_visible) {
+    if (key === "Escape") {
+      this.hideCafeMathPopup();
+      return;
+    }
+
+    // Handle number input (0-9)
+    if (key >= '0' && key <= '9') {
+      this.addCafeMathType(key);
+      return;
+    }
+
+    if (key === "Backspace" || key === "Delete") {
+      this.deleteCafeMathType();
+      return;
+    }
+
+    if (key === "Enter") {
+      this.checkCafeMathAnswer();
+      return;
+    }
+
+    return; // Block all other input when math popup is visible
+  }
 
   if (key === "Escape" && !this.cafe_exit_sequence) {
     this.cafe_exit_sequence = true;
@@ -196,7 +277,7 @@ Game.prototype.cafeKeyDown = function(ev) {
     return;
   }
 
-  
+
 
   if (this.cafe_typing_allowed) {
     for (i in lower_array) {
@@ -267,7 +348,11 @@ Game.prototype.addCafeType = function(letter) {
   }
 
   if (got_food) {
-    let food = this.makeFood(typing_choice.target, 0, typing_choice);
+    if (window.getCafeMathMode()) {
+      this.showCafeMathPopup(typing_choice);
+    } else {
+      let food = this.makeFood(typing_choice.target, 0, typing_choice);
+    }
   }
 }
 
@@ -322,13 +407,20 @@ Game.prototype.makeFood = function(food, table_number, typing_choice = null) {
     food_name = "pizza";
   }
 
-  self.makePop(screen, cafe_food_locations[table_number][0], cafe_food_locations[table_number][1], 1, 1);
+  self.makePop(screen, cafe_food_locations[table_number][0], cafe_food_locations[table_number][1], 1.5, 1.5);
+
   let sheet = PIXI.Loader.shared.resources["Art/Cafe/Food/" + food_name + ".json"].spritesheet
   let food_sprite = new PIXI.AnimatedSprite(sheet.animations[food_name]);
   food_sprite.anchor.set(0.5, 0.5);
   food_sprite.position.set(cafe_food_locations[table_number][0], cafe_food_locations[table_number][1]);
   if (table_number == 3) food_sprite.scale.set(-1,1);
   screen.addChild(food_sprite);
+
+  // If math popup is visible, move it to the top so food doesn't cover it
+  if (this.cafe_math_popup_visible) {
+    screen.removeChild(this.cafe_math_popup);
+    screen.addChild(this.cafe_math_popup);
+  }
 
   if (table_number == 0) {
     soundEffect("pop");
@@ -373,6 +465,131 @@ Game.prototype.makeFood = function(food, table_number, typing_choice = null) {
       self.cafe_diners[table_number].shake = self.markTime();
     }
   }, eating_delay + 1500 * (table_number/2 + 1));
+}
+
+
+Game.prototype.showCafeMathPopup = function(typing_choice) {
+  var self = this;
+  var screen = this.screens["cafe"];
+
+  // Generate random subtraction problem (single-digit, positive result)
+  let num1 = Math.floor(Math.random() * 9) + 1; // 1-9
+  let num2 = Math.floor(Math.random() * num1) + 0; // 0 to num1 (ensures positive result)
+  this.cafe_math_correct_answer = num1 - num2;
+
+  this.cafe_math_problem_text.text = num1 + " - " + num2 + " = ";
+  this.cafe_math_answer = "";
+  this.cafe_math_answer_text.text = "";
+  this.cafe_math_pending_food = typing_choice;
+
+  this.cafe_math_popup_visible = true;
+  this.cafe_math_popup.visible = true;
+  this.cafe_typing_allowed = false;
+}
+
+
+Game.prototype.hideCafeMathPopup = function() {
+  var self = this;
+  var screen = this.screens["cafe"];
+
+  this.cafe_math_popup_visible = false;
+  this.cafe_math_popup.visible = false;
+  this.cafe_typing_allowed = true;
+  this.cafe_math_answer = "";
+  this.cafe_math_answer_text.text = "";
+  this.cafe_math_answer_text.style.fill = 0x000000; // Reset to black
+  this.cafe_math_pending_food = null;
+  this.cafe_math_answer_is_wrong = false;
+
+  // Reset the typing state
+  if (this.cafe_last_edit) {
+    this.cafe_last_edit.text = "";
+  }
+  this.cafe_last_prefix = "";
+}
+
+
+Game.prototype.addCafeMathType = function(digit) {
+  var self = this;
+
+  // If answer is wrong, require backspace to clear before typing new digits
+  if (this.cafe_math_answer_is_wrong) {
+    return;
+  }
+
+  if (use_voice) {
+    soundEffect(digit.toLowerCase());
+  }
+
+  // Allow unlimited digits (for future expansion of math operations)
+  this.cafe_math_answer += digit;
+  this.cafe_math_answer_text.text = this.cafe_math_answer;
+}
+
+
+Game.prototype.deleteCafeMathType = function() {
+  var self = this;
+  var screen = this.screens["cafe"];
+
+  if (this.cafe_math_answer.length > 0) {
+    let l = this.cafe_math_answer.slice(-1);
+    let t = new PIXI.Text(l, {fontFamily: default_font, fontSize: 100, fill: 0x000000, letterSpacing: 5, align: "left"});
+
+    // If answer was wrong, make falling digits red
+    if (this.cafe_math_answer_is_wrong) {
+      t.style.fill = 0xCC3333; // Match the softer red
+    }
+
+    t.anchor.set(0, 0.5);
+
+    // Calculate position based on the answer text's actual position and width
+    // Measure the width of the text before the last character
+    let measure = new PIXI.TextMetrics.measureText(this.cafe_math_answer.slice(0, -1), this.cafe_math_answer_text.style);
+    t.position.set(this.cafe_math_answer_text.x + measure.width, this.cafe_math_answer_text.y);
+
+    t.vx = -20 + 40 * Math.random();
+    t.vy = -5 + -20 * Math.random();
+    t.floor = 1200;
+    screen.addChild(t);
+    this.freefalling.push(t);
+
+    this.cafe_math_answer = this.cafe_math_answer.slice(0, -1);
+    this.cafe_math_answer_text.text = this.cafe_math_answer;
+    soundEffect("swipe");
+
+    // If we've cleared all wrong digits, reset the wrong state
+    if (this.cafe_math_answer.length === 0) {
+      this.cafe_math_answer_is_wrong = false;
+      this.cafe_math_answer_text.style.fill = 0x000000; // Reset to black
+    }
+  }
+}
+
+
+Game.prototype.checkCafeMathAnswer = function() {
+  var self = this;
+
+  if (this.cafe_math_answer === "") return;
+
+  let answer = parseInt(this.cafe_math_answer);
+
+  if (answer === this.cafe_math_correct_answer) {
+    soundEffect("success");
+    flicker(this.cafe_math_answer_text, 300, 0x000000, 0xFFFFFF);
+
+    // Save reference before hiding popup (which sets it to null)
+    let pending_food = this.cafe_math_pending_food;
+
+    delay(function() {
+      self.hideCafeMathPopup();
+      self.makeFood(pending_food.target, 0, pending_food);
+    }, 300);
+  } else {
+    // Wrong answer - turn red and require backspace to clear
+    soundEffect("swipe");
+    this.cafe_math_answer_is_wrong = true;
+    this.cafe_math_answer_text.style.fill = 0xCC3333; // Softer red/crimson color
+  }
 }
 
 

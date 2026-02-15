@@ -14,6 +14,11 @@ const path = require('path')
 const settings = require('electron-settings');
 const fs = require('fs');
 
+// Configure electron-settings to use settings.json instead of config.json
+settings.configure({
+  fileName: 'settings.json'
+});
+
 
 let game_fullscreen = false;
 
@@ -38,6 +43,12 @@ async function initializeSettings() {
   if (persistPurchases === undefined) {
     await settings.set('persistPurchases', false);
     console.log('Initialized persistPurchases setting to false');
+  }
+
+  const cafeMathMode = await settings.get('cafeMathMode');
+  if (cafeMathMode === undefined) {
+    await settings.set('cafeMathMode', false);
+    console.log('Initialized cafeMathMode setting to false');
   }
 }
 
@@ -112,6 +123,11 @@ function createWindow () {
       } else if (arg[0] == "get_persist_purchases") {
         // Get persistPurchases setting (default: false)
         settings.get('persistPurchases').then(value => {
+          event.returnValue = value === true;
+        });
+      } else if (arg[0] == "get_cafe_math_mode") {
+        // Get cafeMathMode setting (default: false)
+        settings.get('cafeMathMode').then(value => {
           event.returnValue = value === true;
         });
       } else if (arg[0] == "save_zoo") {

@@ -29,6 +29,10 @@ window.getPersistPurchases = function() {
   return ipcRenderer.sendSync('synchronous-message', ["get_persist_purchases"]);
 }
 
+window.getCafeMathMode = function() {
+  return ipcRenderer.sendSync('synchronous-message', ["get_cafe_math_mode"]);
+}
+
 window.saveZoo = function(zoo_data) {
   return ipcRenderer.sendSync('synchronous-message', ["save_zoo", zoo_data]);
 }
