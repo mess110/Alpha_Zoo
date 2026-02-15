@@ -798,6 +798,8 @@ Game.prototype.updatePlayer = function() {
           this.player.visible = false;
           this.ghost.visible = false;
           this.zoo_mode = "fading";
+          // Save map state before entering any special building
+          this.entered_from_map = this.map_visible;
           // this.initializeScreen("cafe");
 
           this.fadeScreens("zoo", "cafe", true);
@@ -810,6 +812,8 @@ Game.prototype.updatePlayer = function() {
           this.player.history = [];
           this.ghost.visible = false;
           this.zoo_mode = "fading";
+          // Save map state before entering any special building
+          this.entered_from_map = this.map_visible;
           this.gift_shop_mode = "active";
           this.gift_shop_dollar_bucks_text.text = this.dollar_bucks;
           this.updatePriceTags();

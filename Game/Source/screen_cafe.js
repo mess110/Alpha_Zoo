@@ -159,7 +159,8 @@ Game.prototype.cafeKeyDown = function(ev) {
   if (key === "Escape" && !this.cafe_exit_sequence) {
     this.cafe_exit_sequence = true;
     this.player.visible = true;
-    this.ghost.visible = true;
+    // Only show ghost if we didn't enter from map mode
+    this.ghost.visible = !this.entered_from_map;
     this.player.y += 150;
     this.map.position.set(this.width/2 - this.player.x * this.map.scale.x, (this.height / 2) - this.player.y * this.map.scale.y);
     this.ghost.position.set(this.width/2, this.height/2);

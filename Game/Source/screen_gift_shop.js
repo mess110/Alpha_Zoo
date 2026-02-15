@@ -503,7 +503,8 @@ Game.prototype.giftShopKeyDown = function(ev) {
   if (key === "Escape" && this.gift_shop_mode != "exit") {
     this.gift_shop_mode = "exit";
     this.player.visible = true;
-    this.ghost.visible = true;
+    // Only show ghost if we didn't enter from map mode
+    this.ghost.visible = !this.entered_from_map;
     this.player.y += 150;
     for (let i = 0; i < this.player.stuffies.length; i++) {
       this.player.stuffies[i].position.set(this.player.x + (i+1) * 50, this.player.y);
