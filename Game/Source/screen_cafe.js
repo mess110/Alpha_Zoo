@@ -86,7 +86,7 @@ Game.prototype.initializeCafe = function() {
   this.cafe_meals = [null, null, null, null];
   
   for (let i = 0; i < 5; i++) {
-    let name = "brown_bear";
+    let name = localStorage.getItem("selected_character") || "brown_bear"
     if (i > 0) name = pick(npc_list);
     let diner = this.makeCharacter(name);
     diner.scale.set(1,1); // reset to larger scale

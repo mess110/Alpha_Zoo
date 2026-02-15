@@ -151,7 +151,9 @@ Game.prototype.resetZooScreen = function() {
   this.title_instructions.alpha = 0.01;
   this.title_instructions.visible = false;
 
-  this.ghost = this.player = this.makeCharacter("brown_bear_ghost");
+  let selected_character = localStorage.getItem("selected_character") || "brown_bear";
+  this.ghost = this.player = this.makeCharacter(`${selected_character}_ghost`);
+  // localStorage.getItem("selected_character")
   screen.addChild(this.ghost);
   this.ghost.position.set(this.width / 2, this.height / 2);
 
@@ -700,7 +702,8 @@ Game.prototype.playerAndBoundaries = function() {
     }
   }
 
-  this.player = this.makeCharacter("brown_bear"); //brown_bear
+  let selected_character = localStorage.getItem("selected_character") || "brown_bear";
+  this.player = this.makeCharacter(selected_character);
   this.player.position.set(min_location[0], min_location[1]);
   this.decorations.push(this.player);
 

@@ -283,7 +283,8 @@ Game.prototype.initializeGiftShopObjects = function() {
 
   this.gift_shop_objects = [];
 
-  this.gift_shop_player = this.makeCharacter("brown_bear"); //brown_bear
+  let character_name = localStorage.getItem("selected_character") || "brown_bear"
+  this.gift_shop_player = this.makeCharacter(character_name);
   this.gift_shop_player.position.set(this.width / 2, this.height / 2);
   this.gift_shop_player.scale.set(1,1);
   this.gift_shop_object_layer.addChild(this.gift_shop_player);

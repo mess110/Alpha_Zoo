@@ -363,7 +363,7 @@ Game.prototype.rideFerrisWheel = function() {
 
     new_decorations = [];
     for (let i = 0; i < self.decorations.length; i++) {
-      if (self.decorations[i].character_name != "brown_bear"
+      if (self.decorations[i].character_name != self.player.character_name
         && (self.decorations[i].character_name == null || !self.decorations[i].character_name.includes("stuffed"))) {
         new_decorations.push(self.decorations[i]);
       }
