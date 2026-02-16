@@ -410,6 +410,7 @@ Game.prototype.initializeScreens = function() {
   this.alertBox = new PIXI.Container();
   pixi.stage.addChild(this.alertBox);
   this.initializeAlertBox();
+  this.initializeMathModule();
 }
 
 
