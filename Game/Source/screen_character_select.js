@@ -314,11 +314,11 @@ Game.prototype.selectCharacter = function(character_key, index) {
   // Save selection to localStorage
   localStorage.setItem("selected_character", character_key);
 
-  // Transition to zoo screen
+  // Transition to bus stop screen
   delay(function() {
-    self.initializeScreen("zoo");
-    self.current_screen = "zoo";
-    self.fadeScreens("character_select", "zoo", true);
+    self.initializeScreen("bus_stop");
+    self.current_screen = "bus_stop";
+    self.fadeScreens("character_select", "bus_stop", true);
   }, 800);
 }
 

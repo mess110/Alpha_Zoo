@@ -330,6 +330,31 @@ Game.prototype.rideTrain = function() {
 }
 
 
+Game.prototype.goToBusStop = function() {
+  var self = this;
+  var screen = this.screens["zoo"];
+
+  soundEffect("success");
+
+  this.display_typing_allowed = false;
+
+  flicker(this.action_typing_text[this.action_default_slot], 300, 0x000000, 0xFFFFFF);
+
+  delay(function() {
+    self.action_typing_text[self.action_default_slot].text = "";
+    self.display_typing_allowed = true;
+  }, 300);
+
+  delay(function() {
+    self.hideDisplayText();
+    self.hideTypingText();
+    self.initializeScreen("bus_stop");
+    self.current_screen = "bus_stop";
+    self.fadeScreens("zoo", "bus_stop", true);
+  });
+}
+
+
 Game.prototype.rideFerrisWheel = function() {
   var self = this;
   var screen = this.screens["zoo"];

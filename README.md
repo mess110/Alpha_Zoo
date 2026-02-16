@@ -25,6 +25,7 @@ All programming and art assets by Matthew Carlin. Sound is from splice.com, free
 - https://www.pond5.com/sound-effects/item/49541726-male-eastern-grey-kangaroo-growling-and-chewing
 - Music is Campfire Song by Chris Haugen (https://chrishaugen.net/).
 - Animal animations are Midjourney generated with cleanup work by Matthew Carlin
+- Bus Stop from www.freepik.com
 
 
 

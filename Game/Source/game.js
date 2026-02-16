@@ -16,7 +16,7 @@ var log_performance = true;
 // open -a Google\ Chrome\ Canary --args --disable-web-security --autoplay-policy=no-user-gesture-required --user-data-dir=/Users/bugsbycarlin/Projects/Messy
 // 
 
-var first_screen = "character_select";
+var first_screen = "bus_stop";
 
 var performance_result = null;
 
@@ -90,6 +90,7 @@ class Game {
     this.initializeScreens();
 
     PIXI.Loader.shared
+      .add("Art/Bus_Stop/bus_stop.png")
       .add("Art/Characters/brown_bear.json")
       .add("Art/Characters/brown_bear_ghost.json")
       .add("Art/Characters/brown_bear_shirt.json")
@@ -452,6 +453,8 @@ class Game {
     console.log(screen_name);
     if (screen_name == "character_select") {
       this.initializeCharacterSelect();
+    } else if (screen_name == "bus_stop") {
+      this.initializeBusStop();
     } else if (screen_name == "zoo") {
       this.initializeZoo();
     } else if (screen_name == "cafe") {
@@ -466,6 +469,8 @@ class Game {
   update(diff) {
     if (this.current_screen == "character_select") {
       this.updateCharacterSelect(diff);
+    } else if (this.current_screen == "bus_stop") {
+      this.updateBusStop(diff);
     } else if (this.current_screen == "zoo") {
       this.updateZoo(diff);
     } else if (this.current_screen == "cafe") {
@@ -495,6 +500,8 @@ class Game {
 
     if(this.current_screen === "character_select") {
       this.characterSelectKeyDown(ev);
+    } else if(this.current_screen === "bus_stop") {
+      this.busStopKeyDown(ev);
     } else if(this.current_screen === "zoo") {
       this.zooKeyDown(ev);
     } else if (this.current_screen == "cafe") {

@@ -158,6 +158,8 @@ Game.prototype.addDisplayType = function(letter) {
       this.rideFerrisWheel();
     } if (text_box.text == "GO") {
       this.rideTrain();
+    } else if (text_box.text == "BUS") {
+      this.goToBusStop();
     } else if (text_box.text == "FEED") {
       this.feedAnimal();
     } else if (text_box.text == "POOP") {
@@ -384,7 +386,7 @@ Game.prototype.changeDisplayText = function(thing_to_display, pen_to_display, wo
     } else if (this.thing_to_display == "FERRIS_WHEEL") {
       word_list = ["COLOR", "RIDE"];
     } else if (this.thing_to_display == "TRAIN") {
-      word_list = ["COLOR", "GO"];
+      word_list = ["COLOR", "GO", "BUS"];
     } else if (this.thing_to_display == "CAFE") {
       word_list = [];
     } else if (this.thing_to_display == "GIFT_SHOP") {

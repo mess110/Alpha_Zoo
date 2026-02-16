@@ -321,6 +321,14 @@ Game.prototype.makeUI = function() {
   this.display_ui.addChild(this.action_glyphs["COLOR"]);
   this.action_glyphs["COLOR"].visible = false;
 
+  this.action_glyphs["BUS"] = new PIXI.Sprite(PIXI.Texture.from("Art/Bus_Stop/bus_stop.png"));
+  this.action_glyphs["BUS"].anchor.set(0.5,0.75);
+  this.action_glyphs["BUS"].position.set(70, this.height - 50);
+  this.action_glyphs["BUS"].scale.set(0.06, 0.06);
+  this.action_glyphs["BUS"].visible = false;
+  this.display_ui.addChild(this.action_glyphs["BUS"]);
+  this.action_glyphs["BUS"].visible = false;
+
   // action glyph positions: 905 - 90 per item
 
 
