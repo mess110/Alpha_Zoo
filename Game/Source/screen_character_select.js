@@ -7,14 +7,14 @@
 //
 
 let playable_characters = [
-  { name: "BLACK BEAR", key: "black_bear" },
+  { name: "GRAY DOG", key: "gray_dog" },
+  { name: "ORANGE DOG", key: "orange_dog" },
   { name: "BROWN BEAR", key: "brown_bear" },
-  { name: "LIGHT CAT", key: "light_cat" },
-  { name: "ORANGE CAT", key: "orange_cat" },
   { name: "POLAR BEAR", key: "polar_bear" },
+  { name: "LIGHT CAT", key: "light_cat" },
+  { name: "YELLOW CAT", key: "yellow_cat" },
   { name: "RABBIT BLUESHIRT", key: "rabbit_blueshirt" },
   { name: "RABBIT REDSHIRT", key: "rabbit_redshirt" },
-  { name: "YELLOW CAT", key: "yellow_cat" }
 ];
 
 Game.prototype.initializeCharacterSelect = function() {

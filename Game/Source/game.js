@@ -129,6 +129,12 @@ class Game {
       .add("Art/Characters/light_cat_ghost.json")
       .add("Art/Characters/light_cat.json")
 
+      .add("Art/Characters/gray_dog.json")
+      .add("Art/Characters/gray_dog_ghost.json")
+
+      .add("Art/Characters/orange_dog.json")
+      .add("Art/Characters/orange_dog_ghost.json")
+
       .add("Art/Decorations/trees.json")
       
       .add("Art/Terrain/fence_post.png")
