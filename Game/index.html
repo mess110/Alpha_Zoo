@@ -45,7 +45,7 @@
       }
     </style>
   </head>
-  <body bgcolor = #000000 onload="initialize();">
+  <body bgcolor = #000000 onload="window.browserInit ? window.browserInit() : initialize();">
     <div id="mainDiv">
     </div>
 
@@ -55,6 +55,7 @@
     <script type="text/javascript" src="Source/Libraries/tween.umd.min.js"></script>
     <script type="text/javascript" src="Source/Libraries/howler.min.js"></script>
 
+    <script type="text/javascript" src="Source/browser_compat.js"></script>
     <script type="text/javascript" src="Source/utilities.js"></script>
     <script type="text/javascript" src="Source/sound.js"></script>
     <script type="text/javascript" src="Source/game.js"></script>
