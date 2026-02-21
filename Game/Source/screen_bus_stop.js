@@ -22,6 +22,8 @@ Game.prototype.initializeBusStop = function() {
   this.bus_stop_last_edit = null;
   this.selected_destination_index = -1;
   this.bus_stop_decorations = [];
+  this.bus_stop_start_time = this.markTime();
+  this.bus_stop_first_move = false;
 
   // Background - bus stop image
   let background = PIXI.Sprite.from("Art/Bus_Stop/bus_stop.png");
@@ -124,6 +126,14 @@ Game.prototype.initializeBusStop = function() {
   title.anchor.set(0.5, 0.5);
   title.position.set(this.width / 2, 100);
   screen.addChild(title);
+
+  // Instructions
+  this.bus_stop_title_instructions = new PIXI.Sprite(PIXI.Texture.from("Art/title_instructions.png"));
+  this.bus_stop_title_instructions.anchor.set(0.5, 1);
+  this.bus_stop_title_instructions.position.set(this.width / 2, this.height);
+  screen.addChild(this.bus_stop_title_instructions);
+  this.bus_stop_title_instructions.alpha = 0.01;
+  this.bus_stop_title_instructions.visible = false;
 
   // Create metro-style line connecting the destinations
   let metro_line = new PIXI.Graphics();
@@ -257,6 +267,11 @@ Game.prototype.updateBusStop = function(diff) {
 
     // Move player if direction is set and within bounds
     if (player.direction != null) {
+      // Fade instructions on first move
+      if (this.bus_stop_title_instructions.visible == true && this.bus_stop_title_instructions.alpha == 1) {
+        this.fadeBusStopTitle();
+      }
+
       // Calculate next position
       let next_x = player.x;
       let next_y = player.y;
@@ -317,6 +332,16 @@ Game.prototype.updateBusStop = function(diff) {
 
   if (!found_match) {
     this.selected_destination_index = -1;
+  }
+
+  // Show instructions after 4 seconds if no movement
+  if (this.bus_stop_first_move == false && this.timeSince(this.bus_stop_start_time) > 4000
+    && this.bus_stop_title_instructions.visible == false) {
+    this.bus_stop_title_instructions.visible = true;
+    new TWEEN.Tween(this.bus_stop_title_instructions)
+      .to({alpha: 1})
+      .duration(1000)
+      .start();
   }
 
   // Update falling letters physics
@@ -447,6 +472,23 @@ Game.prototype.deleteBusStopType = function() {
 }
 
 
+Game.prototype.fadeBusStopTitle = function() {
+  var self = this;
+
+  this.bus_stop_first_move = true;
+
+  new TWEEN.Tween(this.bus_stop_title_instructions)
+    .to({alpha: 0})
+    .duration(1000)
+    .start()
+    .onUpdate(function() {
+    })
+    .onComplete(function() {
+      self.bus_stop_title_instructions.visible = false;
+    });
+}
+
+
 Game.prototype.selectDestination = function(destination_key, index) {
   var self = this;
 
@@ -485,4 +527,7 @@ Game.prototype.clearBusStop = function() {
   this.bus_stop_typing_allowed = true;
   this.bus_stop_player = null;
   this.bus_stop_decorations = [];
+  this.bus_stop_first_move = false;
+  this.bus_stop_start_time = null;
+  this.bus_stop_title_instructions = null;
 }
