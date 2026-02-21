@@ -666,11 +666,23 @@ Game.prototype.sortLayer = function(layer_name, layer_object_list, artificial_y 
 
   if (artificial_y) {
     layer_object_list.sort(function(a,b) {
-      return a.cy - b.cy;
+      if (a == null) return 1;
+      if (b == null) return -1;
+      try {
+        return a.cy - b.cy;
+      } catch (e) {
+        return 0;
+      }
     })
   } else {
     layer_object_list.sort(function(a,b) {
-      return a.y - b.y;
+      if (a == null) return 1;
+      if (b == null) return -1;
+      try {
+        return a.y - b.y;
+      } catch (e) {
+        return 0;
+      }
     })
   }
 
@@ -679,9 +691,15 @@ Game.prototype.sortLayer = function(layer_name, layer_object_list, artificial_y 
   }
 
   for (let i = 0; i < layer_object_list.length; i++) {
-    // if (layer_object_list[i].character_name != null && layer_object_list[i].character_name == "brown_bear") console.log("uep");
-    if (!(layer_object_list[i].status == "dead")) {
-      layer_name.addChild(layer_object_list[i]);
+    let obj = layer_object_list[i];
+    // if (obj.character_name != null && obj.character_name == "brown_bear") console.log("uep");
+    if (obj != null && !(obj.status == "dead") && !obj.destroyed) {
+      try {
+        layer_name.addChild(obj);
+      } catch (e) {
+        // Skip objects that can't be added (destroyed or invalid)
+        console.warn("Failed to add object to layer:", e);
+      }
     }
   }
 }
@@ -1355,7 +1373,7 @@ Game.prototype.updateZoo = function(diff) {
 
   let new_decorations = [];
   for (let i = 0; i < this.decorations.length; i++) {
-    if (!(this.decorations[i].status == "dead")) {
+    if (this.decorations[i] != null && !(this.decorations[i].status == "dead")) {
       new_decorations.push(this.decorations[i])
     } else {
       // console.log("dead");

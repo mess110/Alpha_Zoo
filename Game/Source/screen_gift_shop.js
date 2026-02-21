@@ -968,7 +968,7 @@ Game.prototype.updateGiftShop = function(diff) {
   if (this.gift_shop_objects != null) {
     let new_gift_shop_objects = [];
     for (let i = 0; i < this.gift_shop_objects.length; i++) {
-      if (!(this.gift_shop_objects[i].status == "dead")) {
+      if (this.gift_shop_objects[i] != null && !(this.gift_shop_objects[i].status == "dead")) {
         new_gift_shop_objects.push(this.gift_shop_objects[i])
       } else {
         // console.log("dead");
