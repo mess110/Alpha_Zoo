@@ -176,9 +176,11 @@ Game.prototype.addDisplayType = function(letter) {
       delay(function() {
         self.action_typing_text[self.action_default_slot].text = "";
         self.display_typing_allowed = true;
-        // Only update display text if on ferris wheel
+        // Update display text to refresh action list based on remaining balloons
         if (self.thing_to_display == "FERRIS_WHEEL_OPTIONS") {
           self.changeDisplayText("FERRIS_WHEEL_OPTIONS", null);
+        } else {
+          self.changeDisplayText("MAP", null);
         }
       }, 300);
 
