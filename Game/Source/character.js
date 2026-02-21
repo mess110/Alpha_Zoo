@@ -60,6 +60,7 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
   }
 
   character.shirt = null;
+  character.skirt = null;
   character.glasses = null;
   character.hat = null;
   character.scooter = null;
@@ -70,6 +71,8 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
 
   character.shirt_layer = new PIXI.Container();
   character.addChild(character.shirt_layer);
+  character.skirt_layer = new PIXI.Container();
+  character.addChild(character.skirt_layer);
   character.glasses_layer = new PIXI.Container();
   character.addChild(character.glasses_layer);
   character.hat_layer = new PIXI.Container();
@@ -132,12 +135,14 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
         if (directions[i] == character.direction) {
           character.character_sprite[directions[i]].visible = true;
           if (character.shirt != null) character.shirt[directions[i]].visible = true;
+          if (character.skirt != null) character.skirt[directions[i]].visible = true;
           if (character.glasses != null) character.glasses[directions[i]].visible = true;
           if (character.hat != null) character.hat[directions[i]].visible = true;
           if (character.scooter != null) character.scooter[directions[i]].visible = true;
         } else {
           character.character_sprite[directions[i]].visible = false;
           if (character.shirt != null) character.shirt[directions[i]].visible = false;
+          if (character.skirt != null) character.skirt[directions[i]].visible = false;
           if (character.glasses != null) character.glasses[directions[i]].visible = false;
           if (character.hat != null) character.hat[directions[i]].visible = false;
           if (character.scooter != null) character.scooter[directions[i]].visible = false;
@@ -164,17 +169,20 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
         if (character.character_sprite[character.direction].currentFrame == 0 && character.current_image == f1) {
           character.character_sprite[character.direction].gotoAndStop(1);
           if (character.shirt != null) character.shirt[character.direction].gotoAndStop(1);
+          if (character.skirt != null) character.skirt[character.direction].gotoAndStop(1);
           if (character.glasses != null) character.glasses[character.direction].gotoAndStop(1);
           if (character.hat != null) character.hat[character.direction].gotoAndStop(1);
         } else if (character.character_sprite[character.direction].currentFrame == 1 && character.current_image == f0) {
           character.character_sprite[character.direction].gotoAndStop(0);
           if (character.shirt != null) character.shirt[character.direction].gotoAndStop(0);
+          if (character.skirt != null) character.skirt[character.direction].gotoAndStop(0);
           if (character.glasses != null) character.glasses[character.direction].gotoAndStop(0);
           if (character.hat != null) character.hat[character.direction].gotoAndStop(0);
         }
       } else {
         character.character_sprite[character.direction].gotoAndStop(0);
         if (character.shirt != null) character.shirt[character.direction].gotoAndStop(0);
+        if (character.skirt != null) character.skirt[character.direction].gotoAndStop(0);
         if (character.glasses != null) character.glasses[character.direction].gotoAndStop(0);
         if (character.hat != null) character.hat[character.direction].gotoAndStop(0);
         character.scooter[character.direction].gotoAndStop(0);
@@ -182,6 +190,7 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
         if (character.direction == "upright" || character.direction == "upleft") {
           character.character_sprite[character.direction].gotoAndStop(1);
           if (character.shirt != null) character.shirt[character.direction].gotoAndStop(1);
+          if (character.skirt != null) character.skirt[character.direction].gotoAndStop(1);
           if (character.glasses != null) character.glasses[character.direction].gotoAndStop(1);
           if (character.hat != null) character.hat[character.direction].gotoAndStop(1);
           character.scooter[character.direction].gotoAndStop(1);
@@ -223,12 +232,14 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
         if (directions[i] == character.direction) {
           character.character_sprite[directions[i]].visible = true;
           if (character.shirt != null) character.shirt[directions[i]].visible = true;
+          if (character.skirt != null) character.skirt[directions[i]].visible = true;
           if (character.glasses != null) character.glasses[directions[i]].visible = true;
           if (character.hat != null) character.hat[directions[i]].visible = true;
           if (character.scooter != null) character.scooter[directions[i]].visible = true;
         } else {
           character.character_sprite[directions[i]].visible = false;
           if (character.shirt != null) character.shirt[directions[i]].visible = false;
+          if (character.skirt != null) character.skirt[directions[i]].visible = false;
           if (character.glasses != null) character.glasses[directions[i]].visible = false;
           if (character.hat != null) character.hat[directions[i]].visible = false;
           if (character.scooter != null) character.scooter[directions[i]].visible = false;
@@ -237,14 +248,16 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
 
       character.character_sprite[character.direction].gotoAndStop(0);
       if (character.shirt != null) character.shirt[character.direction].gotoAndStop(0);
+      if (character.skirt != null) character.skirt[character.direction].gotoAndStop(0);
       if (character.glasses != null) character.glasses[character.direction].gotoAndStop(0);
       if (character.hat != null) character.hat[character.direction].gotoAndStop(0);
       if (character.scooter != null) character.scooter[character.direction].gotoAndStop(0);
 
-      if (character.scooter != null && 
+      if (character.scooter != null &&
         (character.direction == "upright" || character.direction == "upleft")) {
           character.character_sprite[character.direction].gotoAndStop(1);
         if (character.shirt != null) character.shirt[character.direction].gotoAndStop(1);
+        if (character.skirt != null) character.skirt[character.direction].gotoAndStop(1);
         if (character.glasses != null) character.glasses[character.direction].gotoAndStop(1);
         if (character.hat != null) character.hat[character.direction].gotoAndStop(1);
         character.scooter[character.direction].gotoAndStop(1);
@@ -340,6 +353,29 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
 
     character.updateDirection();
 
+    game.makeSmoke(character, 0, 0, 1.8, 1.8);
+  }
+
+  character.addSkirt = function(skirt_color) {
+    if (character.skirt != null) {
+      for(let i = 0; i < 8; i++) {
+        character.skirt_layer.removeChild(character.skirt[directions[i]]);
+        character.skirt[directions[i]].destroy();
+      }
+    }
+
+    let sheet = PIXI.Loader.shared.resources["Art/Characters/brown_bear_skirt.json"].spritesheet;
+    character.skirt = {};
+    character.skirt_color = skirt_color;
+    for(let i = 0; i < 8; i++) {
+      character.skirt[directions[i]] = new PIXI.AnimatedSprite(sheet.animations[directions[i]]);
+      character.skirt[directions[i]].anchor.set(0.5,0.78125);
+      character.skirt[directions[i]].position.set(0, 0);
+      character.skirt_layer.addChild(character.skirt[directions[i]]);
+      character.skirt[directions[i]].tint = skirt_color;
+      character.skirt[directions[i]].visible = false;
+    }
+    character.updateDirection();
     game.makeSmoke(character, 0, 0, 1.8, 1.8);
   }
 

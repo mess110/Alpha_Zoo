@@ -737,6 +737,12 @@ Game.prototype.playerAndBoundaries = function() {
       this.saved_shirt_color = null;
     }
 
+    // Restore skirt
+    if (this.saved_skirt_color) {
+      this.player.addSkirt(this.saved_skirt_color);
+      this.saved_skirt_color = null;
+    }
+
     // Restore hat
     if (this.saved_hat_type) {
       this.player.addHat(this.saved_hat_type);

@@ -48,6 +48,7 @@ Game.prototype.serializeZooState = function() {
       dollar_bucks: this.dollar_bucks || 0,
       balloons: [],
       shirt_color: null,
+      skirt_color: null,
       hat_type: null,
       glasses_type: null,
       scooter_type: null,
@@ -65,8 +66,9 @@ Game.prototype.serializeZooState = function() {
       }
     }
 
-    // Save shirt, hat, glasses, scooter
+    // Save shirt, skirt, hat, glasses, scooter
     zoo_data.progression.shirt_color = this.player.shirt_color || null;
+    zoo_data.progression.skirt_color = this.player.skirt_color || null;
     zoo_data.progression.hat_type = this.player.hat_type || null;
     zoo_data.progression.glasses_type = this.player.glasses_type || null;
     zoo_data.progression.scooter_type = this.player.scooter_type || null;
@@ -153,6 +155,7 @@ Game.prototype.deserializeZooState = function(zoo_data) {
   // Store purchase data for later restoration (after player is created)
   this.saved_balloons = zoo_data.progression.balloons || [];
   this.saved_shirt_color = zoo_data.progression.shirt_color || null;
+  this.saved_skirt_color = zoo_data.progression.skirt_color || null;
   this.saved_hat_type = zoo_data.progression.hat_type || null;
   this.saved_glasses_type = zoo_data.progression.glasses_type || null;
   this.saved_scooter_type = zoo_data.progression.scooter_type || null;

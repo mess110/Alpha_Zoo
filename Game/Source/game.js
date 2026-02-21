@@ -93,6 +93,8 @@ class Game {
       .add("Art/Bus_Stop/bus_stop.png")
       .add("Art/Characters/brown_bear.json")
       .add("Art/Characters/brown_bear_ghost.json")
+
+      .add("Art/Characters/brown_bear_skirt.json")
       .add("Art/Characters/brown_bear_shirt.json")
 
       .add("Art/Characters/brown_bear_sun_glasses.json")
