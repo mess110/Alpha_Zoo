@@ -229,6 +229,8 @@ Game.prototype.initializeBusStop = function() {
 
   this.bus_stop_last_edit = this.destination_name_typing_texts[0];
   this.bus_stop_initialized = true;
+
+  setMusic("background_music");
 }
 
 

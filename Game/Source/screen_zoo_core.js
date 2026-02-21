@@ -201,7 +201,7 @@ Game.prototype.resetZooScreen = function() {
   this.start_time = this.markTime();
   this.first_move = false;
 
-  setMusic("background_music");
+  if (current_music == null && music_volume > 0) setMusic("background_music");
 
   delay(function() {
     self.zoo_mode = "active";
