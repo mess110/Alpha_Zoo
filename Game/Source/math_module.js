@@ -34,7 +34,8 @@ Game.prototype.initializeMathModule = function() {
   this.math_problem_text.position.set(this.width / 2 - 200, this.height / 2);
   this.math_popup.addChild(this.math_problem_text);
 
-  this.math_answer_text = new PIXI.Text("", {fontFamily: default_font, fontSize: 100, fill: 0x000000, letterSpacing: 5, align: "left"});
+  this.math_answer_text = new PIXI.Text("", {fontFamily: default_font, fontSize: 100, fill: 0xFFFFFF, letterSpacing: 5, align: "left"});
+  this.math_answer_text.tint = 0x000000;
   this.math_answer_text.anchor.set(0, 0.5);
   this.math_answer_text.position.set(this.width / 2 + 60, this.height / 2);
   this.math_popup.addChild(this.math_answer_text);
@@ -105,7 +106,7 @@ Game.prototype.hideMathPopup = function() {
   this.math_popup.visible = false;
   this.math_answer = "";
   this.math_answer_text.text = "";
-  this.math_answer_text.style.fill = 0x000000; // Reset to black
+  this.math_answer_text.tint = 0x000000; // Reset to black
   this.math_answer_is_wrong = false;
 
   // Remove from parent screen
@@ -182,11 +183,13 @@ Game.prototype.deleteMathType = function() {
 
   if (this.math_answer.length > 0) {
     let l = this.math_answer.slice(-1);
-    let t = new PIXI.Text(l, {fontFamily: default_font, fontSize: 100, fill: 0x000000, letterSpacing: 5, align: "left"});
+    let t = new PIXI.Text(l, {fontFamily: default_font, fontSize: 100, fill: 0xFFFFFF, letterSpacing: 5, align: "left"});
 
-    // If answer was wrong, make falling digits red
+    // If answer was wrong, make falling digits red; otherwise black
     if (this.math_answer_is_wrong) {
-      t.style.fill = 0xCC3333; // Match the softer red
+      t.tint = 0xCC3333; // Match the softer red
+    } else {
+      t.tint = 0x000000; // Black for correct digits
     }
 
     t.anchor.set(0, 0.5);
@@ -209,7 +212,7 @@ Game.prototype.deleteMathType = function() {
     // If we've cleared all wrong digits, reset the wrong state
     if (this.math_answer.length === 0) {
       this.math_answer_is_wrong = false;
-      this.math_answer_text.style.fill = 0x000000; // Reset to black
+      this.math_answer_text.tint = 0x000000; // Reset to black
     }
   }
 }
@@ -239,6 +242,6 @@ Game.prototype.checkMathAnswer = function() {
     // Wrong answer - turn red and require backspace to clear
     soundEffect("swipe");
     this.math_answer_is_wrong = true;
-    this.math_answer_text.style.fill = 0xCC3333; // Softer red/crimson color
+    this.math_answer_text.tint = 0xCC3333; // Softer red/crimson color
   }
 }
