@@ -390,7 +390,7 @@ Game.prototype.changeDisplayText = function(thing_to_display, pen_to_display, wo
     } else if (this.thing_to_display == "FERRIS_WHEEL") {
       word_list = ["COLOR", "RIDE"];
     } else if (this.thing_to_display == "TRAIN") {
-      word_list = ["COLOR", "GO", "BUS", "DRIVE"];
+      word_list = ["BUS", "COLOR", "DRIVE", "GO"];
     } else if (this.thing_to_display == "CAFE") {
       word_list = [];
     } else if (this.thing_to_display == "GIFT_SHOP") {

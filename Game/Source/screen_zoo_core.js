@@ -273,7 +273,7 @@ Game.prototype.makeUI = function() {
   this.display_ui.addChild(this.action_glyphs["RIDE"]);
   this.action_glyphs["RIDE"].visible = false;
 
-  this.action_glyphs["GO"] = new PIXI.Sprite(PIXI.Texture.from("Art/Trains/icon.png"));
+  this.action_glyphs["GO"] = new PIXI.Sprite(PIXI.Texture.from("Art/Trains/icon_car.png"));
   this.action_glyphs["GO"].anchor.set(0.5,0.67);
   this.action_glyphs["GO"].position.set(70, this.height);
   this.action_glyphs["GO"].scale.set(0.5, 0.5);
@@ -330,10 +330,10 @@ Game.prototype.makeUI = function() {
   this.display_ui.addChild(this.action_glyphs["BUS"]);
   this.action_glyphs["BUS"].visible = false;
 
-  this.action_glyphs["DRIVE"] = new PIXI.Sprite(PIXI.Texture.from("Art/Trains/train_engine.png"));
-  this.action_glyphs["DRIVE"].anchor.set(0.5,0.75);
-  this.action_glyphs["DRIVE"].position.set(70, this.height - 50);
-  this.action_glyphs["DRIVE"].scale.set(0.15, 0.15);
+  this.action_glyphs["DRIVE"] = new PIXI.Sprite(PIXI.Texture.from("Art/Trains/icon.png"));
+  this.action_glyphs["DRIVE"].anchor.set(0.5,0.67);
+  this.action_glyphs["DRIVE"].position.set(70, this.height);
+  this.action_glyphs["DRIVE"].scale.set(0.5, 0.5);
   this.action_glyphs["DRIVE"].visible = false;
   this.display_ui.addChild(this.action_glyphs["DRIVE"]);
   this.action_glyphs["DRIVE"].visible = false;
