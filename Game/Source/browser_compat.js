@@ -65,7 +65,7 @@
     // --- Password gate (browser only) ---
     // I understand the implications and the fact that this can be bypassed, but for the purpose of this game, we can consider this "good enough".
     // Just buy the game https://store.steampowered.com/app/1807640/Alpha_Zoo to support the creator
-    const PASSWORD_HASH = "REPLACE_WITH_ACTUAL_HASH";
+    const PASSWORD_HASH = "ac2e9c5dd9f5627205511391731d8c6f651b1c20056f16f6166f7e87f47c89c2";
     const AUTH_KEY = "alpha_zoo_auth";
 
     if (localStorage.getItem(AUTH_KEY) !== PASSWORD_HASH) {
