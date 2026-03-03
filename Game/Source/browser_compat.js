@@ -63,7 +63,9 @@
   window.browserInit = async function() {
 
     // --- Password gate (browser only) ---
-    const PASSWORD_HASH = "REPLACE_WITH_ACTUAL_HASH"; // sha256 of your chosen password
+    // I understand the implications and the fact that this can be bypassed, but for the purpose of this game, we can consider this "good enough".
+    // Just buy the game https://store.steampowered.com/app/1807640/Alpha_Zoo to support the creator
+    const PASSWORD_HASH = "REPLACE_WITH_ACTUAL_HASH";
     const AUTH_KEY = "alpha_zoo_auth";
 
     if (localStorage.getItem(AUTH_KEY) !== PASSWORD_HASH) {
