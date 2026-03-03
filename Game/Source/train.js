@@ -93,8 +93,17 @@ Game.prototype.rollTrains = function() {
     this.decorations = new_decorations;
     this.sortLayer(this.map.decoration_layer, this.decorations);
 
-    this.trains[1].passenger_layer.addChild(this.player);
-    this.player.position.set(0, -100);
+    if (this.player_is_driving) {
+      // Remove engine NPC and put player in driver seat
+      while (this.trains[0].passenger_layer.children.length > 0) {
+        this.trains[0].passenger_layer.removeChildAt(0);
+      }
+      this.trains[0].passenger_layer.addChild(this.player);
+      this.player.position.set(-60, -110);
+    } else {
+      this.trains[1].passenger_layer.addChild(this.player);
+      this.player.position.set(0, -100);
+    }
 
     for (let i = 0; i < this.player.stuffies.length; i++) {
       this.trains[1].passenger_layer.addChild(this.player.stuffies[i]);
@@ -146,7 +155,16 @@ Game.prototype.disembarkTrain = function() {
     self.fadeFromBlack(1000);
     self.zoo_mode = "active";
 
-    self.trains[1].passenger_layer.removeChild(self.player);
+    let driver_car = self.player_is_driving ? 0 : 1;
+    self.trains[driver_car].passenger_layer.removeChild(self.player);
+
+    if (self.player_is_driving) {
+      let new_npc = self.makeCharacter(pick(npc_list));
+      self.trains[0].passenger_layer.addChild(new_npc);
+      new_npc.position.set(-60, -110);
+    }
+
+    self.player_is_driving = false;
 
     self.player.position.set(self.stations[self.train_stop].x, self.stations[self.train_stop].y);
     if (self.train_stop == "south") self.player.y -= 330;

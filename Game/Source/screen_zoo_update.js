@@ -330,6 +330,46 @@ Game.prototype.rideTrain = function() {
 }
 
 
+Game.prototype.driveTrain = function() {
+  var self = this;
+
+  this.display_typing_allowed = false;
+
+  this.showMathPopup(
+    this.screens["zoo"],
+    function() {
+      // Math solved: remove engine NPC, place player in driver seat
+      soundEffect("success");
+
+      self.zoo_mode = "pre_train_ride";
+
+      flicker(self.action_typing_text[self.action_default_slot], 300, 0x000000, 0xFFFFFF);
+
+      delay(function() {
+        self.action_typing_text[self.action_default_slot].text = "";
+        self.display_typing_allowed = true;
+      }, 300);
+
+      delay(function() {
+        self.hideDisplayText();
+        self.hideTypingText();
+        self.fadeToBlack(1000);
+      });
+
+      delay(function() {
+        self.fadeFromBlack(1000);
+        self.player_is_driving = true;
+        self.rollTrains();
+      }, 1800);
+    },
+    function() {
+      // Cancelled: re-enable typing
+      self.display_typing_allowed = true;
+    }
+  );
+}
+
+
 Game.prototype.goToBusStop = function() {
   var self = this;
   var screen = this.screens["zoo"];

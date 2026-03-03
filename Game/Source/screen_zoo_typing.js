@@ -158,6 +158,8 @@ Game.prototype.addDisplayType = function(letter) {
       this.rideFerrisWheel();
     } if (text_box.text == "GO") {
       this.rideTrain();
+    } else if (text_box.text == "DRIVE") {
+      this.driveTrain();
     } else if (text_box.text == "BUS") {
       this.goToBusStop();
     } else if (text_box.text == "FEED") {
@@ -388,7 +390,7 @@ Game.prototype.changeDisplayText = function(thing_to_display, pen_to_display, wo
     } else if (this.thing_to_display == "FERRIS_WHEEL") {
       word_list = ["COLOR", "RIDE"];
     } else if (this.thing_to_display == "TRAIN") {
-      word_list = ["COLOR", "GO", "BUS"];
+      word_list = ["COLOR", "GO", "BUS", "DRIVE"];
     } else if (this.thing_to_display == "CAFE") {
       word_list = [];
     } else if (this.thing_to_display == "GIFT_SHOP") {
@@ -432,7 +434,7 @@ Game.prototype.changeDisplayText = function(thing_to_display, pen_to_display, wo
   }
 
   this.display_action_backing.anchor.set(0, 1);
-  this.display_action_backing.scale.set(0.5, 0.5 * word_list.length);
+  this.display_action_backing.scale.set(0.5, 0.5 * word_list.length + 0.15);
 
   this.action_default_slot = word_list.length - 1;
   this.action_list = word_list;

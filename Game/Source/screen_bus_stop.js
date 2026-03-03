@@ -69,6 +69,9 @@ Game.prototype.initializeBusStop = function() {
     if (this.player.shirt_color) {
       this.bus_stop_player.addShirt(this.player.shirt_color);
     }
+    if (this.player.skirt_color) {
+      this.bus_stop_player.addSkirt(this.player.skirt_color);
+    }
     if (this.player.hat_type) {
       this.bus_stop_player.addHat(this.player.hat_type);
     }
@@ -104,6 +107,9 @@ Game.prototype.initializeBusStop = function() {
     // Load accessories
     if (progression.shirt_color) {
       this.bus_stop_player.addShirt(progression.shirt_color);
+    }
+    if (progression.skirt_color) {
+      this.bus_stop_player.addSkirt(progression.skirt_color);
     }
     if (progression.hat_type) {
       this.bus_stop_player.addHat(progression.hat_type);

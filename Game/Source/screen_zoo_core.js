@@ -178,6 +178,7 @@ Game.prototype.resetZooScreen = function() {
   this.playerAndBoundaries();
   // populate zoo
   this.addAnimalsAndDecorations();
+  this.player_is_driving = false;
   this.addTrains();
   
   this.sortLayer(this.map.decoration_layer, this.decorations);
@@ -328,6 +329,14 @@ Game.prototype.makeUI = function() {
   this.action_glyphs["BUS"].visible = false;
   this.display_ui.addChild(this.action_glyphs["BUS"]);
   this.action_glyphs["BUS"].visible = false;
+
+  this.action_glyphs["DRIVE"] = new PIXI.Sprite(PIXI.Texture.from("Art/Trains/train_engine.png"));
+  this.action_glyphs["DRIVE"].anchor.set(0.5,0.75);
+  this.action_glyphs["DRIVE"].position.set(70, this.height - 50);
+  this.action_glyphs["DRIVE"].scale.set(0.15, 0.15);
+  this.action_glyphs["DRIVE"].visible = false;
+  this.display_ui.addChild(this.action_glyphs["DRIVE"]);
+  this.action_glyphs["DRIVE"].visible = false;
 
   // action glyph positions: 905 - 90 per item
 
@@ -799,6 +808,10 @@ Game.prototype.zooKeyDown = function(ev) {
   var screen = this.screens["zoo"];
 
   let key = ev.key;
+
+  if (this.handleMathPopupInput(key)) {
+    return;
+  }
 
   if (this.zoo_mode == "active" && this.map_visible == true) {
     if (key === "Escape" || key === " " || key === "Enter") {

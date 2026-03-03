@@ -46,6 +46,28 @@
     </style>
   </head>
   <body bgcolor = #000000 onload="window.browserInit ? window.browserInit() : initialize();">
+    <div id="password-gate" style="
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #1a1a2e;
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+    ">
+      <div style="text-align: center; color: #fff;">
+        <div style="font-size: 64px; margin-bottom: 8px; letter-spacing: 4px;">ALPHA ZOO</div>
+        <div style="font-size: 28px; color: #aaa; margin-bottom: 40px; letter-spacing: 2px;">Enter Password</div>
+        <input id="password-input" type="password"
+          style="font-size: 32px; padding: 12px 24px; border-radius: 8px; border: 2px solid #555;
+                 background: #2a2a4e; color: #fff; text-align: center; width: 300px; outline: none;"
+          placeholder="••••••••" />
+        <div id="password-error" style="color: #e05555; font-size: 22px; margin-top: 16px; min-height: 30px;"></div>
+      </div>
+    </div>
+
     <div id="mainDiv">
     </div>
 

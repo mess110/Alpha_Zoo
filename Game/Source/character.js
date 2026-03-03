@@ -71,14 +71,14 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
 
   character.shirt_layer = new PIXI.Container();
   character.addChild(character.shirt_layer);
-  character.skirt_layer = new PIXI.Container();
-  character.addChild(character.skirt_layer);
   character.glasses_layer = new PIXI.Container();
   character.addChild(character.glasses_layer);
   character.hat_layer = new PIXI.Container();
   character.addChild(character.hat_layer);
   character.scooter_layer = new PIXI.Container();
   character.addChild(character.scooter_layer);
+  character.skirt_layer = new PIXI.Container();
+  character.addChild(character.skirt_layer);
 
   character.direction = "down";
   character.walk_frame_time = walk_frame_time;

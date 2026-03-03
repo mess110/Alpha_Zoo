@@ -50,8 +50,51 @@
     return 'deleted';
   };
 
+  // --- Password gate helper ---
+  async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
   // --- Async entry point (replaces direct initialize() call) ---
   window.browserInit = async function() {
+
+    // --- Password gate (browser only) ---
+    const PASSWORD_HASH = "REPLACE_WITH_ACTUAL_HASH"; // sha256 of your chosen password
+    const AUTH_KEY = "alpha_zoo_auth";
+
+    if (localStorage.getItem(AUTH_KEY) !== PASSWORD_HASH) {
+      // Show gate, hide canvas
+      document.getElementById("password-gate").style.display = "flex";
+      const canvas = document.querySelector("canvas");
+      if (canvas) canvas.style.display = "none";
+
+      await new Promise((resolve) => {
+        const input = document.getElementById("password-input");
+        const error = document.getElementById("password-error");
+
+        input.focus();
+        input.addEventListener("keydown", async (e) => {
+          if (e.key === "Enter") {
+            const hash = await hashPassword(input.value);
+            if (hash === PASSWORD_HASH) {
+              localStorage.setItem(AUTH_KEY, PASSWORD_HASH);
+              document.getElementById("password-gate").style.display = "none";
+              if (canvas) canvas.style.display = "";
+              resolve();
+            } else {
+              error.textContent = "Wrong password";
+              input.value = "";
+              input.focus();
+            }
+          }
+        });
+      });
+    }
+    // --- End password gate ---
 
     // 1. Check localStorage for a prior in-browser save.
     let local = localStorage.getItem('alpha_zoo_map');
