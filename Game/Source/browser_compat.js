@@ -24,8 +24,8 @@
   // --- Settings (browser defaults) ---
   window.getPersistMap       = function() { return true;  };
   window.getPersistPenStates = function() { return true;  };
-  window.getPersistPurchases = function() { return false; };
-  window.getCafeMathMode     = function() { return false; };
+  window.getPersistPurchases = function() { return true;  };
+  window.getCafeMathMode     = function() { return true; };
 
   // --- Save / Load (synchronous — data pre-fetched by browserInit) ---
   window.hasZooSave = function() { return _hasMapSave; };
