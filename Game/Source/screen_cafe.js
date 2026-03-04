@@ -105,21 +105,11 @@ Game.prototype.initializeCafe = function() {
     if (i == 0) {
       this.cafe_player = diner;
 
-      // Clear any old balloons from cafe player (in case of re-entry)
-      if (this.cafe_player.balloons && this.cafe_player.balloons.length > 0) {
-        while (this.cafe_player.balloons.length > 0) {
-          let oldBalloon = this.cafe_player.balloons.pop();
-          if (oldBalloon.parent) {
-            oldBalloon.parent.removeChild(oldBalloon);
-          }
-          oldBalloon.destroy();
-        }
-      }
-
       // Sync balloons from zoo player - this is the single source of truth
       if (this.player && this.player.balloons) {
-        for (let i = 0; i < this.player.balloons.length; i++) {
-          this.cafe_player.addBalloon(this.player.balloons[i].color);
+        this.clearCharacterBalloons(this.cafe_player);
+        for (let b of this.player.balloons) {
+          this.cafe_player.addBalloon(b.color);
         }
       }
     }

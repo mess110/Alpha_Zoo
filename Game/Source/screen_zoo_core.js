@@ -156,6 +156,7 @@ Game.prototype.resetZooScreen = function() {
   // localStorage.getItem("selected_character")
   screen.addChild(this.ghost);
   this.ghost.position.set(this.width / 2, this.height / 2);
+  this.ghost.visible = false;
 
   // this.makeLoadingScreen();
   this.black.alpha = 1;
@@ -732,51 +733,23 @@ Game.prototype.playerAndBoundaries = function() {
   // Restore saved purchases if persistPurchases is enabled
   let persist_purchases = window.getPersistPurchases();
   if (persist_purchases) {
-    // Restore balloons
-    if (this.saved_balloons && this.saved_balloons.length > 0) {
-      for (let balloon_color of this.saved_balloons) {
-        this.player.addBalloon(balloon_color);
-      }
-      this.saved_balloons = [];
-    }
-
-    // Restore shirt
-    if (this.saved_shirt_color) {
-      this.player.addShirt(this.saved_shirt_color);
-      this.saved_shirt_color = null;
-    }
-
-    // Restore skirt
-    if (this.saved_skirt_color) {
-      this.player.addSkirt(this.saved_skirt_color);
-      this.saved_skirt_color = null;
-    }
-
-    // Restore hat
-    if (this.saved_hat_type) {
-      this.player.addHat(this.saved_hat_type);
-      this.saved_hat_type = null;
-    }
-
-    // Restore glasses
-    if (this.saved_glasses_type) {
-      this.player.addGlasses(this.saved_glasses_type);
-      this.saved_glasses_type = null;
-    }
-
-    // Restore scooter
-    if (this.saved_scooter_type) {
-      this.player.addScooter(this.saved_scooter_type, "zoo");
-      this.saved_scooter_type = null;
-    }
-
-    // Restore stuffies
-    if (this.saved_stuffies && this.saved_stuffies.length > 0) {
-      for (let stuffie_name of this.saved_stuffies) {
-        this.player.addStuffie(stuffie_name, this.decorations);
-      }
-      this.saved_stuffies = [];
-    }
+    let saved = {
+      balloons: this.saved_balloons || [],
+      shirt_color: this.saved_shirt_color,
+      skirt_color: this.saved_skirt_color,
+      hat_type: this.saved_hat_type,
+      glasses_type: this.saved_glasses_type,
+      scooter_type: this.saved_scooter_type,
+      stuffies: this.saved_stuffies || [],
+    };
+    this.applyCharacterAppearance(saved, this.player, "zoo", this.decorations);
+    this.saved_balloons = [];
+    this.saved_shirt_color = null;
+    this.saved_skirt_color = null;
+    this.saved_hat_type = null;
+    this.saved_glasses_type = null;
+    this.saved_scooter_type = null;
+    this.saved_stuffies = [];
   }
 
   this.npcs = [];
@@ -1013,7 +986,7 @@ Game.prototype.zooKeyDown = function(ev) {
 
       delay(function() {
         self.ferris_wheel.reset();
-        self.ghost.visible = true;
+        // self.ghost.visible = true;
         self.updateGhost();
       }, 900)
 

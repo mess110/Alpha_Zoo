@@ -326,21 +326,11 @@ Game.prototype.initializeGiftShopObjects = function() {
   this.gift_shop_object_layer.addChild(this.gift_shop_player);
   this.gift_shop_objects.push(this.gift_shop_player);
 
-  // Clear any old balloons from gift shop player (in case of re-entry)
-  if (this.gift_shop_player.balloons && this.gift_shop_player.balloons.length > 0) {
-    while (this.gift_shop_player.balloons.length > 0) {
-      let oldBalloon = this.gift_shop_player.balloons.pop();
-      if (oldBalloon.parent) {
-        oldBalloon.parent.removeChild(oldBalloon);
-      }
-      oldBalloon.destroy();
-    }
-  }
-
   // Sync balloons from zoo player - this is the single source of truth
   if (this.player && this.player.balloons) {
-    for (let i = 0; i < this.player.balloons.length; i++) {
-      this.gift_shop_player.addBalloon(this.player.balloons[i].color);
+    this.clearCharacterBalloons(this.gift_shop_player);
+    for (let b of this.player.balloons) {
+      this.gift_shop_player.addBalloon(b.color);
     }
   }
 
@@ -578,8 +568,7 @@ Game.prototype.giftShopKeyDown = function(ev) {
   if (key === "Escape" && this.gift_shop_mode != "exit") {
     this.gift_shop_mode = "exit";
     this.player.visible = true;
-    // Only show ghost if we didn't enter from map mode
-    this.ghost.visible = !this.entered_from_map;
+    // this.ghost.visible = !this.entered_from_map;
     this.player.y += 150;
     for (let i = 0; i < this.player.stuffies.length; i++) {
       this.player.stuffies[i].position.set(this.player.x + (i+1) * 50, this.player.y);

@@ -545,3 +545,49 @@ Game.prototype.makeCharacter = function(character_name, subtype = "normal") {
 
   return character;
 }
+
+
+Game.prototype.clearCharacterBalloons = function(character) {
+  while (character.balloons.length > 0) {
+    let balloon = character.balloons.pop();
+    if (balloon.parent) balloon.parent.removeChild(balloon);
+    balloon.destroy();
+  }
+}
+
+Game.prototype.clearCharacterStuffies = function(character) {
+  while (character.stuffies.length > 0) {
+    let stuffie = character.stuffies.pop();
+    if (stuffie.parent) stuffie.parent.removeChild(stuffie);
+    stuffie.destroy();
+  }
+}
+
+// Applies clothing, accessories, balloons, and optionally stuffies from source to target.
+// source: character object or save-data progression — balloons may be objects (.color) or strings;
+//         stuffies may be character objects (.character_name) or name strings.
+// scene:  scooter scene ("zoo", "gift_shop", etc.) — pass null to skip scooter sync.
+// decorations_list: if provided, clears existing stuffies and syncs from source into this array.
+Game.prototype.applyCharacterAppearance = function(source, target, scene, decorations_list) {
+  if (source.shirt_color) target.addShirt(source.shirt_color);
+  if (source.skirt_color) target.addSkirt(source.skirt_color);
+  if (source.hat_type) target.addHat(source.hat_type);
+  if (source.glasses_type) target.addGlasses(source.glasses_type);
+  if (scene && source.scooter_type) target.addScooter(source.scooter_type, scene);
+
+  this.clearCharacterBalloons(target);
+  if (source.balloons && source.balloons.length > 0) {
+    for (let b of source.balloons) {
+      target.addBalloon(b.color !== undefined ? b.color : b);
+    }
+  }
+
+  if (decorations_list != null) {
+    this.clearCharacterStuffies(target);
+    if (source.stuffies && source.stuffies.length > 0) {
+      for (let s of source.stuffies) {
+        target.addStuffie(s.character_name || s, decorations_list);
+      }
+    }
+  }
+}

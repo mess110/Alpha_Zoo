@@ -47,78 +47,16 @@ Game.prototype.initializeBusStop = function() {
 
   // Sync persistent items from zoo player if it exists (returning from zoo)
   if (this.player) {
-    // Sync balloons
-    if (this.player.balloons && this.player.balloons.length > 0) {
-      for (let i = 0; i < this.player.balloons.length; i++) {
-        this.bus_stop_player.addBalloon(this.player.balloons[i].color);
-      }
-    }
-
-    // Sync stuffies
-    if (this.player.stuffies && this.player.stuffies.length > 0) {
-      for (let stuffie of this.player.stuffies) {
-        this.bus_stop_player.addStuffie(stuffie.character_name, this.bus_stop_decorations);
-      }
-      // Add stuffies to the screen
-      for (let stuffie of this.bus_stop_player.stuffies) {
-        screen.addChild(stuffie);
-      }
-    }
-
-    // Sync accessories
-    if (this.player.shirt_color) {
-      this.bus_stop_player.addShirt(this.player.shirt_color);
-    }
-    if (this.player.skirt_color) {
-      this.bus_stop_player.addSkirt(this.player.skirt_color);
-    }
-    if (this.player.hat_type) {
-      this.bus_stop_player.addHat(this.player.hat_type);
-    }
-    if (this.player.glasses_type) {
-      this.bus_stop_player.addGlasses(this.player.glasses_type);
-    }
-    if (this.player.scooter_type) {
-      this.bus_stop_player.addScooter(this.player.scooter_type, "bus_stop");
+    this.applyCharacterAppearance(this.player, this.bus_stop_player, "bus_stop", this.bus_stop_decorations);
+    for (let stuffie of this.bus_stop_player.stuffies) {
+      screen.addChild(stuffie);
     }
   }
   // Otherwise, load from saved progression data (first time on bus stop)
   else if (saved_data && saved_data.progression) {
-    let progression = saved_data.progression;
-
-    // Load balloons
-    if (progression.balloons && progression.balloons.length > 0) {
-      for (let balloon_color of progression.balloons) {
-        this.bus_stop_player.addBalloon(balloon_color);
-      }
-    }
-
-    // Load stuffies
-    if (progression.stuffies && progression.stuffies.length > 0) {
-      for (let stuffie_name of progression.stuffies) {
-        this.bus_stop_player.addStuffie(stuffie_name, this.bus_stop_decorations);
-      }
-      // Add stuffies to the screen
-      for (let stuffie of this.bus_stop_player.stuffies) {
-        screen.addChild(stuffie);
-      }
-    }
-
-    // Load accessories
-    if (progression.shirt_color) {
-      this.bus_stop_player.addShirt(progression.shirt_color);
-    }
-    if (progression.skirt_color) {
-      this.bus_stop_player.addSkirt(progression.skirt_color);
-    }
-    if (progression.hat_type) {
-      this.bus_stop_player.addHat(progression.hat_type);
-    }
-    if (progression.glasses_type) {
-      this.bus_stop_player.addGlasses(progression.glasses_type);
-    }
-    if (progression.scooter_type) {
-      this.bus_stop_player.addScooter(progression.scooter_type, "bus_stop");
+    this.applyCharacterAppearance(saved_data.progression, this.bus_stop_player, "bus_stop", this.bus_stop_decorations);
+    for (let stuffie of this.bus_stop_player.stuffies) {
+      screen.addChild(stuffie);
     }
   }
 
