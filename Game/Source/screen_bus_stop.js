@@ -246,8 +246,10 @@ Game.prototype.updateBusStop = function(diff) {
       }
 
       // Bounds checking - keep player on screen with some margin
+      // Right 40% of screen is blocked (bus stop area)
       let margin = 140;
-      if (next_x >= margin && next_x <= this.width - margin &&
+      let right_limit = Math.min(this.width - margin, this.width * 0.6);
+      if (next_x >= margin && next_x <= right_limit &&
           next_y >= this.height - margin * 1.65 && next_y <= this.height - margin) {
         player.move();
       }
