@@ -435,6 +435,7 @@ Game.prototype.changeDisplayText = function(thing_to_display, pen_to_display, wo
 
   this.display_action_backing.anchor.set(0, 1);
   this.display_action_backing.scale.set(0.5, 0.5 * word_list.length + 0.15);
+  this.display_action_backing.visible = word_list.length > 0;
 
   this.action_default_slot = word_list.length - 1;
   this.action_list = word_list;

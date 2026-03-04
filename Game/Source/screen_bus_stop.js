@@ -64,7 +64,7 @@ Game.prototype.initializeBusStop = function() {
   let title = new PIXI.Text("Where Do You Want To Go?", {
     fontFamily: default_font,
     fontSize: 80,
-    fill: 0x333333,
+    fill: 0x000000,
     align: "center"
   });
   title.anchor.set(0.5, 0.5);
@@ -134,7 +134,7 @@ Game.prototype.initializeBusStop = function() {
     let grey_text = new PIXI.Text(dest_data.name, {
       fontFamily: default_font,
       fontSize: 48,
-      fill: is_enabled ? 0x666666 : 0xAAAAAA,
+      fill: is_enabled ? 0x000000 : 0xAAAAAA,
       letterSpacing: 2,
       align: "left"
     });
@@ -150,7 +150,7 @@ Game.prototype.initializeBusStop = function() {
     let typing_text = new PIXI.Text("", {
       fontFamily: default_font,
       fontSize: 48,
-      fill: 0x000000,
+      fill: 0xFFFFFF,
       letterSpacing: 2,
       align: "left"
     });
